@@ -3,10 +3,11 @@ package WTproject.boekenWT.models;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="PHYSICALBOOKCOPY")
 public class PhysicalBookCopy {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int physicalBookCopyId;
 
     @ManyToOne
@@ -14,10 +15,10 @@ public class PhysicalBookCopy {
     private PhysicalBook physicalBook;
 
     @Column
-    private Enums.Condition condition;
+    private String physicalCondition;
 
     @Column
-    private Enums.BorrowingStatus borrowingStatus;
+    private String borrowingStatus;
 
     public int getPhysicalBookCopyId() {
         return physicalBookCopyId;
@@ -35,19 +36,19 @@ public class PhysicalBookCopy {
         this.physicalBook = physicalBook;
     }
 
-    public Enums.Condition getCondition() {
-        return condition;
+    public String getPhysicalCondition() {
+        return physicalCondition;
     }
 
-    public void setCondition(Enums.Condition condition) {
-        this.condition = condition;
+    public void setPhysicalCondition(String physicalCondition) {
+        this.physicalCondition = physicalCondition;
     }
 
-    public Enums.BorrowingStatus getBorrowingStatus() {
+    public String getBorrowingStatus() {
         return borrowingStatus;
     }
 
-    public void setBorrowingStatus(Enums.BorrowingStatus borrowingStatus) {
+    public void setBorrowingStatus(String borrowingStatus) {
         this.borrowingStatus = borrowingStatus;
     }
 }

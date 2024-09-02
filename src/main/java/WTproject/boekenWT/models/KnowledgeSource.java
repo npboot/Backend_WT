@@ -1,17 +1,22 @@
 package WTproject.boekenWT.models;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
+
+import java.util.Set;
 
 @Entity
+@Table(name="KNOWLEDGESOURCE")
 public class KnowledgeSource {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sourceId;
 
     @Column
     private Enums.SourceType sourceType;
+
+    @OneToMany(mappedBy = "physicalBookId")
+    private Set<PhysicalBook> physicalBooks;
 
     @Column
     private Enums.Category category;

@@ -1,22 +1,27 @@
 package WTproject.boekenWT.models;
 
 import jakarta.persistence.*;
-import org.hibernate.type.descriptor.jdbc.NVarcharJdbcType;
+
+import java.util.Set;
 
 @Entity
+@Table(name="PHYSICALBOOK")
 public class PhysicalBook {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int physicalBookId;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "sourceId")
     private KnowledgeSource knowledgeSource;
 
     @OneToOne
     @JoinColumn(name = "isbn")
     private Book book;
+
+    @OneToMany(mappedBy = "physicalBookCopyId")
+    private Set<PhysicalBookCopy> physicalBookCopies;
 
     @Column
     private int stock;

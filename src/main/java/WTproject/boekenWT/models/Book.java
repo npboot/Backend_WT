@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.Year;
 
 @Entity
+@Table(name="BOOK")
 public class Book {
 
     @Id
@@ -13,9 +14,12 @@ public class Book {
     @Column
     private String title;
 
-    @ManyToMany
+    @ManyToOne // Test, dit moet ManyToMany zijn
     @JoinColumn(name = "authorId")
     private Author author;
+
+    @OneToOne(mappedBy = "book")
+    private PhysicalBook physicalBook;
 
     @Column
     private Year year;
