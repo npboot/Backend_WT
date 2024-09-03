@@ -1,8 +1,9 @@
 package WTproject.boekenWT;
 
-import WTproject.boekenWT.logic.CreateBook;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import WTproject.boekenWT.logic.BookCRUD.CreateBook;
 
 @SpringBootApplication
 public class BoekenWtApplication {

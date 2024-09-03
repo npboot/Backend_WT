@@ -2,10 +2,10 @@ package WTproject.boekenWT.models;
 
 import java.time.Year;
 
-public class JsonClass {
-    private Book book;
-    private Author author;
-    private Year year;
+public class CreateBookTemplate {
+    public Book book;
+    public Author author;
+    public Year year;
 
     public Book getBook() {
         return book;

@@ -1,22 +1,23 @@
-package WTproject.boekenWT.logic;
+package WTproject.boekenWT.logic.BookCRUD;
 
 import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.BookRepository;
+import WTproject.boekenWT.repositories.BookRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
-@RestController
-@CrossOrigin
 public class UpdateBook {
 
     @Autowired
     private BookRepository bookRepository;
 
-    @PutMapping("/updatebook/{id}")
-    public String updateBook(@PathVariable String id, @RequestBody Book book) {
-        Book updatedBook = bookRepository.findById(id).get();
+    public void updateBook(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    public String updateBookData(Book book) {
+        Book updatedBook = bookRepository.findById(book.getIsbn()).get();
         updatedBook.setTitle(book.getTitle());
         updatedBook.setYear(book.getYear());
         updatedBook.setAuthor(book.getAuthor());
@@ -26,6 +27,6 @@ public class UpdateBook {
         } catch (Exception e) {
             return "Error: " + e;
         }
-        return "book id " + id + " updated.";
+        return "book id " + book.getIsbn() + " updated.";
     }
 }
