@@ -15,7 +15,21 @@ public class DeleteBook {
     @Autowired
     private BookRepository bookRepository;
 
-    public void deleteBook() {
+    public void deleteBook(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
+    public String deleteBookItem(String isbn) {
+        if (bookRepository.existsById(isbn)) {
+            try {
+                bookRepository.deleteById(isbn);
+                return "Book deleted";
+            } catch (Exception e) {
+                return "Error: " + e;
+            }
+        }
+        else {
+            return "Book not found";
+        }
     }
 }
