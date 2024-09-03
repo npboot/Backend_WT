@@ -2,7 +2,7 @@ package WTproject.boekenWT.logic.BookCRUD;
 
 import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.CreateBookTemplate;
+import WTproject.boekenWT.models.templates.CreateBookTemplate;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @SpringBootApplication
 @Component
-public class CreateBook {
+public class CreateBook extends CreateBookTemplate{
 
     @Autowired
     private BookRepository bookRepository;
