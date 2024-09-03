@@ -16,7 +16,7 @@ public class Author {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "isbn")
     private Set<Book> book;
 
     public int getAuthorId() {
