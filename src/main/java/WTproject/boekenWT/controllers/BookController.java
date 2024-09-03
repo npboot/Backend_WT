@@ -4,7 +4,7 @@ import WTproject.boekenWT.logic.BookCRUD.CreateBook;
 import WTproject.boekenWT.logic.BookCRUD.ReadBook;
 import WTproject.boekenWT.logic.BookCRUD.UpdateBook;
 import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.CreateBookTemplate;
+import WTproject.boekenWT.models.templates.CreateBookTemplate;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 
