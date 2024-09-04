@@ -2,7 +2,7 @@ package WTproject.boekenWT.logic.BookCRUD;
 
 import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.templates.CreateBookTemplate;
+import WTproject.boekenWT.models.TemplateClasses.CreateBookTemplate;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 
