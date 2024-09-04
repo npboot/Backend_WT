@@ -1,5 +1,6 @@
 package WTproject.boekenWT.logic.BookCRUD;
 
+import WTproject.boekenWT.logic.AuthorCRUD.CreateAuthor;
 import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Book;
 import WTproject.boekenWT.models.TemplateClasses.CreateBookTemplate;
@@ -20,10 +21,14 @@ public class CreateBook extends CreateBookTemplate{
     private BookRepository bookRepository;
     @Autowired
     private AuthorRepository authorRepository;
+    private CreateAuthor createAuthor;
 
     public void createBook(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+
+        this.createAuthor = new CreateAuthor();
+        this.createAuthor.createAuthor(authorRepository);
     }
 
     public String addBook(CreateBookTemplate json) {
@@ -33,21 +38,9 @@ public class CreateBook extends CreateBookTemplate{
 
         Author newAuthor = json.author;
         Book newBook = json.book;
-
-        author.setAuthorId(newAuthor.getAuthorId());
-        author.setName(newAuthor.getName());
         
-        //check if author already exists
-        if (authorRepository.existsById(author.getAuthorId())) {
-            author = authorRepository.findById(author.getAuthorId()).get();
-        }
-        else {
-            try {
-                authorRepository.save(author);
-            } catch (Exception e) {
-                return "Error: " + e;
-            }
-        }
+        //check if author already exists, if not, add it
+        createAuthor.addAuthor(newAuthor.getName(), author);
 
         if(bookRepository.existsById(newBook.getIsbn())) {
             return "Book already exists";
