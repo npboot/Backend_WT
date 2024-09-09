@@ -6,9 +6,12 @@ import jakarta.persistence.*;
 @Table(name="ONLINEBOOK")
 public class OnlineBook {
     //attributes
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ebookId;
+
     @OneToOne
     @JoinColumn(name = "isbn")
-    @Id
     private Book book;
 
     @Column

@@ -7,9 +7,12 @@ import java.util.Set;
 @Table(name="PHYSICALBOOK")
 public class PhysicalBook {
     //attributes
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int bookId;
+
     @OneToOne
     @JoinColumn(name = "isbn")
-    @Id
     private Book book;
 
     @Column

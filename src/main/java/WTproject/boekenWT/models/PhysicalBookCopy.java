@@ -1,5 +1,8 @@
 package WTproject.boekenWT.models;
 
+import java.time.Year;
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
@@ -13,7 +16,7 @@ public class PhysicalBookCopy {
     private int CopyId;
 
     @ManyToOne
-    @JoinColumn(name = "isbn")
+    @JoinColumn(name = "bookId")
     private PhysicalBook physicalBook;
 
     @Column
@@ -23,7 +26,7 @@ public class PhysicalBookCopy {
     private Enums.BorrowingStatus status;
 
     @Column
-    private DateTimeFormat purchaseDate;
+    private Date purchaseDate;
 
     @Column
     private boolean archived;
@@ -62,11 +65,11 @@ public class PhysicalBookCopy {
         this.status = status;
     }
 
-    public DateTimeFormat getPurchaseDate() {
+    public Date getPurchaseDate() {
         return this.purchaseDate;
     }
 
-    public void setPurchaseDate(DateTimeFormat purchaseDate) {
+    public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 

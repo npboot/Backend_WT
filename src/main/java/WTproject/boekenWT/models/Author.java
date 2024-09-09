@@ -16,7 +16,7 @@ public class Author {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "isbn")
+    @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
 
@@ -37,11 +37,11 @@ public class Author {
         this.name = name;
     }
 
-    public Set<Book> getBooks() {
-        return this.books;
-    }
+    // public Set<Book> getBooks() {
+    //     return this.books;
+    // }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
+    // public void setBooks(Set<Book> books) {
+    //     this.books = books;
+    // }
 }
