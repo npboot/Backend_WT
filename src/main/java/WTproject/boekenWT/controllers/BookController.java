@@ -57,11 +57,9 @@ public class BookController {
         return bookService.updateBookData(book);
     }
 
-    // @DeleteMapping("/deleteBook")
-    // public String deleteBook(@RequestParam String isbn) {
-    //     DeleteBook deleteBook = new DeleteBook();
-    //     deleteBook.deleteBook(bookRepository);
+    @DeleteMapping("/deleteBook")
+    public String deleteBook(@RequestParam int isbn) {
 
-    //     return deleteBook.deleteBookItem(isbn);
-    // }
+        return bookService.deleteBookItem(isbn);
+    }
 }

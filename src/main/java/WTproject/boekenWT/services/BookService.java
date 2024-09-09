@@ -30,6 +30,7 @@ public class BookService {
 
         Author newAuthor = bookTemplate.getAuthor();
         Book newBook = bookTemplate.getBook();
+        System.out.println("TEST CASE" + newBook.getIsPhysical());
 
         // Check if the author already exists
         if (authorRepository.existsById(newAuthor.getAuthorId())) {
@@ -54,6 +55,10 @@ public class BookService {
                 book.setTitle(newBook.getTitle());
                 book.addAuthor(author);
                 book.setYear(year);
+                book.setIsOnline(newBook.getIsOnline());
+                book.setIsPhysical(newBook.getIsPhysical());
+                book.setSummary(newBook.getSummary());
+                // book.setCategories(newBook.getCategories());
 
                 bookRepository.save(book);
             } catch (Exception e) {
@@ -111,5 +116,17 @@ public class BookService {
     }
 
     //DELETE
-
+    public String deleteBookItem(int isbn) {
+        if (bookRepository.existsById(isbn)) {
+            try {
+                bookRepository.deleteById(isbn);
+                return "Book deleted";
+            } catch (Exception e) {
+                return "Error: " + e;
+            }
+        }
+        else {
+            return "Book not found";
+        }
+    }
 }

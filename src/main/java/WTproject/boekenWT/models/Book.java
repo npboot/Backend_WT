@@ -35,7 +35,7 @@ public class Book {
     private boolean isOnline;
 
     @Column
-    private boolean isPhyiscal;
+    private boolean isPhysical;
 
     @OneToOne(mappedBy = "book")
     private PhysicalBook physicalBook;
@@ -104,12 +104,12 @@ public class Book {
         this.isOnline = isOnline;
     }
 
-    public boolean getIsPhyiscal() {
-        return this.isPhyiscal;
+    public boolean getIsPhysical() {
+        return this.isPhysical;
     }
 
-    public void setIsPhyiscal(boolean isPhyiscal) {
-        this.isPhyiscal = isPhyiscal;
+    public void setIsPhysical(boolean isPhysical) {
+        this.isPhysical = isPhysical;
     }
 
 }
