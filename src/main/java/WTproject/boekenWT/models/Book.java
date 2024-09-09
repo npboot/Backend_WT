@@ -3,6 +3,7 @@ package WTproject.boekenWT.models;
 import jakarta.persistence.*;
 
 import java.time.Year;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,7 +18,7 @@ public class Book {
     name = "AUTHOR_BOOK", 
     joinColumns = @JoinColumn(name = "isbn"), 
     inverseJoinColumns = @JoinColumn(name = "authorId"))
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
 
     @Column
     private String title;
@@ -57,6 +58,10 @@ public class Book {
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    public void addAuthor(Author author) {
+        this.authors.add(author);
     }
 
     public String getTitle() {

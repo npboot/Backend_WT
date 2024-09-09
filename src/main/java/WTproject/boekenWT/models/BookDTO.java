@@ -15,5 +15,9 @@ public class BookDTO {
         return author;
     }
 
+    public Year getYear() {
+        return year;
+    }
+
     
 }
