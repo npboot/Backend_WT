@@ -52,13 +52,10 @@ public class BookController {
         return bookService.getBook(isbn);
     }
 
-    // @PutMapping("/updateBook")
-    // public String updateBook(@RequestBody Book book) {
-    //     UpdateBook updateBook = new UpdateBook();
-    //     updateBook.updateBook(bookRepository);
-
-    //     return updateBook.updateBookData(book);
-    // }
+    @PutMapping("/updateBook")
+    public String updateBook(@RequestBody Book book) {
+        return bookService.updateBookData(book);
+    }
 
     // @DeleteMapping("/deleteBook")
     // public String deleteBook(@RequestParam String isbn) {

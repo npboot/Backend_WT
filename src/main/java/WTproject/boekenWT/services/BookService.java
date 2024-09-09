@@ -21,7 +21,9 @@ public class BookService {
     @Autowired
     AuthorRepository authorRepository;
 
+    //ADD
     public String addBook(BookDTO bookTemplate) {
+
         Book book = new Book();
         Author author = new Author();
         Year year = bookTemplate.getYear();
@@ -61,6 +63,8 @@ public class BookService {
 
         return "Book added";
     }
+
+    //GET
     public String getBook(int isbn) {
         if(bookRepository.existsById(isbn)) {
             Book book = bookRepository.findById(isbn).get();
@@ -75,4 +79,37 @@ public class BookService {
         
         return (List<Book>)bookRepository.findAll();
     }
+
+    //UPDATE
+    public String updateBookData(Book book) {
+        System.out.println(book.getIsbn());
+        Book updatedBook = bookRepository.findById(book.getIsbn()).get();
+        updatedBook.setTitle(book.getTitle());
+        updatedBook.setYear(book.getYear());
+        
+        // if (book.getAuthors().size() > 0) {
+        //     for (int i = 0; i < book.getAuthors().size(); i++) {
+        //         //if author doesn't exist, add it
+        //         if (updatedBook.getAuthors().iterator().next().getAuthorId() != book.getAuthors().iterator().next().getAuthorId()) {
+        //             updatedBook.addAuthor(book.getAuthors().iterator().next());
+        //         }
+        //     }
+        // }
+        Object[] authorArray = book.getAuthors().toArray();
+
+        for(int i=0; i < authorArray.length; i++) {
+            Author author = (Author) authorArray[i];
+            System.out.println("SECOND TEST:" + author);
+        }
+
+        try {
+            bookRepository.save(updatedBook);
+        } catch (Exception e) {
+            return "Error: " + e;
+        }
+        return "book id " + book.getIsbn() + " updated.";
+    }
+
+    //DELETE
+
 }
