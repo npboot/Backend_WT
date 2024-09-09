@@ -1,8 +1,11 @@
 package WTproject.boekenWT.models;
 
+import java.time.Year;
+
 public class BookDTO {
     Book book;
     Author author;
+    Year year;
 
     public Book getBook() {
         return book;
@@ -11,5 +14,6 @@ public class BookDTO {
     public Author getAuthor() {
         return author;
     }
+
     
 }

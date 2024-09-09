@@ -1,11 +1,11 @@
 package WTproject.boekenWT.controllers;
 
-import WTproject.boekenWT.logic.BookCRUD.CreateBook;
-import WTproject.boekenWT.logic.BookCRUD.DeleteBook;
-import WTproject.boekenWT.logic.BookCRUD.ReadBook;
-import WTproject.boekenWT.logic.BookCRUD.UpdateBook;
-import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.TemplateClasses.CreateBookTemplate;
+// import WTproject.boekenWT.logic.BookCRUD.CreateBook;
+// import WTproject.boekenWT.logic.BookCRUD.DeleteBook;
+// import WTproject.boekenWT.logic.BookCRUD.ReadBook;
+// import WTproject.boekenWT.logic.BookCRUD.UpdateBook;
+// import WTproject.boekenWT.models.Book;
+// import WTproject.boekenWT.models.TemplateClasses.CreateBookTemplate;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 

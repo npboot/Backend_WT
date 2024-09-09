@@ -3,56 +3,108 @@ package WTproject.boekenWT.models;
 import jakarta.persistence.*;
 
 import java.time.Year;
+import java.util.Set;
 
 @Entity
 @Table(name="BOOK")
 public class Book {
-
+    //attributes
     @Id
-    private String isbn;
+    private int isbn;
+
+    @ManyToMany
+    @JoinTable(
+    name = "AUTHOR_BOOK", 
+    joinColumns = @JoinColumn(name = "isbn"), 
+    inverseJoinColumns = @JoinColumn(name = "authorId"))
+    private Set<Author> authors;
 
     @Column
     private String title;
 
-    @ManyToOne // Test, dit moet ManyToMany zijn
-    @JoinColumn(name = "authorId")
-    private Author author;
-
-    @OneToOne(mappedBy = "book")
-    private PhysicalBook physicalBook;
+    @Column String summary;
 
     @Column
     private Year year;
 
-    public String getIsbn() {
-        return isbn;
+    @Column
+    private Set<Enums.Category> categories;
+
+    @Column
+    private boolean isOnline;
+
+    @Column
+    private boolean isPhyiscal;
+
+    @OneToOne(mappedBy = "book")
+    private PhysicalBook physicalBook;
+
+    @OneToOne(mappedBy = "book")
+    private OnlineBook onlineBook;
+
+    //getters and setters
+    public int getIsbn() {
+        return this.isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(int isbn) {
         this.isbn = isbn;
     }
 
+    public Set<Author> getAuthors() {
+        return this.authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public Author getAuthor() {
-        return author;
+    public String getSummary() {
+        return this.summary;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public Year getYear() {
-        return year;
+        return this.year;
     }
 
     public void setYear(Year year) {
         this.year = year;
     }
+
+    public Set<Enums.Category> getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(Set<Enums.Category> categories) {
+        this.categories = categories;
+    }
+
+    public boolean getIsOnline() {
+        return this.isOnline;
+    }
+
+    public void setIsOnline(boolean isOnline) {
+        this.isOnline = isOnline;
+    }
+
+    public boolean getIsPhyiscal() {
+        return this.isPhyiscal;
+    }
+
+    public void setIsPhyiscal(boolean isPhyiscal) {
+        this.isPhyiscal = isPhyiscal;
+    }
+
 }

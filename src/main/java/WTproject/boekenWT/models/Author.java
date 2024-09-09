@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name="AUTHOR")
 public class Author {
-
+    //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int authorId;
@@ -16,11 +16,13 @@ public class Author {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "isbn")
-    private Set<Book> book;
+    @ManyToMany(mappedBy = "isbn")
+    private Set<Book> books;
 
+
+    //getters and setters
     public int getAuthorId() {
-        return authorId;
+        return this.authorId;
     }
 
     public void setAuthorId(int authorId) {
@@ -28,10 +30,18 @@ public class Author {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Book> getBooks() {
+        return this.books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

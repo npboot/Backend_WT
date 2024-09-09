@@ -1,11 +1,10 @@
 package WTproject.boekenWT.models;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name="PHYSICALBOOK")
-public class PhysicalBook {
+@Table(name="ONLINEBOOK")
+public class OnlineBook {
     //attributes
     @OneToOne
     @JoinColumn(name = "isbn")
@@ -13,13 +12,10 @@ public class PhysicalBook {
     private Book book;
 
     @Column
-    private int stock;
+    private String filePath;
 
     @Column
     private boolean archived;
-
-    @OneToMany(mappedBy = "physicalBook")
-    private Set<PhysicalBookCopy> physicalBookCopies;
 
     //getters and setters
     public Book getBook() {
@@ -30,12 +26,12 @@ public class PhysicalBook {
         this.book = book;
     }
 
-    public int getStock() {
-        return this.stock;
+    public String getFilePath() {
+        return this.filePath;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public boolean getArchived() {
