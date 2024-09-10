@@ -18,7 +18,7 @@ public class Book {
     name = "AUTHOR_BOOK", 
     joinColumns = @JoinColumn(name = "isbn"), 
     inverseJoinColumns = @JoinColumn(name = "authorId"))
-    private Set<Author> authors = new HashSet<>();
+    private Set<Author> authors = new HashSet<Author>();
 
     @Column
     private String title;

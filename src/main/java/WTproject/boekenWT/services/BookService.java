@@ -1,6 +1,7 @@
 package WTproject.boekenWT.services;
 
 import java.time.Year;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,26 +26,39 @@ public class BookService {
     public String addBook(BookDTO bookTemplate) {
 
         Book book = new Book();
-        Author author = new Author();
+        Set<Author> authors = new HashSet<Author>();
         Year year = bookTemplate.getYear();
 
-        Author newAuthor = bookTemplate.getAuthor();
+        Set<Author> newAuthors = bookTemplate.getAuthor();
         Book newBook = bookTemplate.getBook();
-        System.out.println("TEST CASE" + newBook.getIsPhysical());
+
 
         // Check if the author already exists
-        if (authorRepository.existsById(newAuthor.getAuthorId())) {
-            // Fetch the existing author from the database
-            author = authorRepository.findById(newAuthor.getAuthorId()).get();
-        } else {
-            // Create and save the new author
-            author.setName(newAuthor.getName());
-            try {
-                author = authorRepository.save(author); // Save and get the managed entity
-            } catch (Exception e) {
-                return "Error: " + e.getMessage();
+        for(Author newAuthor: newAuthors) {
+            Author author = new Author();
+            System.out.println("First check: " + newAuthor.getName() + "  " + newAuthor.getAuthorId());
+            if (authorRepository.existsById(newAuthor.getAuthorId())) {
+                System.out.println("Author bestaat al");
+                // Fetch the existing author from the database
+                author = authorRepository.findById(newAuthor.getAuthorId()).get();
+                System.out.println("Nieuwe author " + author.getName() + " is toegevoegd");
+                authors.add(author);
+            } else {
+                // Create and save the new author
+                author.setName(newAuthor.getName());
+                System.out.println("Author is nieuw");
+                try {
+                    author = authorRepository.save(author);
+                    authors.add(author);
+                    System.out.println("Nieuwe author " + author.getName() + " is toegevoegd");
+
+                    // Save and get the managed entity
+                } catch (Exception e) {
+                    return "Error: " + e.getMessage();
+                }
             }
         }
+
 
         if(bookRepository.existsById(newBook.getIsbn())) {
             return "Book already exists";
@@ -53,7 +67,11 @@ public class BookService {
             try {
                 book.setIsbn(newBook.getIsbn());
                 book.setTitle(newBook.getTitle());
-                book.addAuthor(author);
+                System.out.println("authors.size: " + authors.size());
+                for(Author newAuthor: authors) {
+                    System.out.println("Second check: " + newAuthor.getName());
+                    book.addAuthor(newAuthor);
+                }
                 book.setYear(year);
                 book.setIsOnline(newBook.getIsOnline());
                 book.setIsPhysical(newBook.getIsPhysical());

@@ -2,6 +2,7 @@ package WTproject.boekenWT.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -16,13 +17,17 @@ public class Author {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany
+    @JoinTable(
+    name = "AUTHOR_BOOK",
+    joinColumns = @JoinColumn(name = "authorId"),
+    inverseJoinColumns = @JoinColumn(name = "isbn"))
     private Set<Book> books;
 
 
     //getters and setters
     public int getAuthorId() {
-        return this.authorId;
+        return authorId;
     }
 
     public void setAuthorId(int authorId) {
