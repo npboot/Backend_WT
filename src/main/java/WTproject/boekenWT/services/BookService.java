@@ -5,12 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import WTproject.boekenWT.models.*;
+import WTproject.boekenWT.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import WTproject.boekenWT.models.Author;
-import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.BookDTO;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 
@@ -21,15 +20,19 @@ public class BookService {
     BookRepository bookRepository;
     @Autowired
     AuthorRepository authorRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     //ADD
     public String addBook(BookDTO bookTemplate) {
 
         Book book = new Book();
         Set<Author> authors = new HashSet<Author>();
+        Set<Category> categories = new HashSet<Category>();
         Year year = bookTemplate.getYear();
 
         Set<Author> newAuthors = bookTemplate.getAuthor();
+        Set<Category> newCategories = bookTemplate.getCategories();
         Book newBook = bookTemplate.getBook();
 
 
@@ -58,6 +61,31 @@ public class BookService {
                 }
             }
         }
+        // Check if the category already exists
+        for(Category newCategory: newCategories) {
+            Category category = new Category();
+            System.out.println("First check: " + newCategory.getCategory() + "  " + newCategory.getCategoryId());
+            if (categoryRepository.existsById(newCategory.getCategoryId())) {
+                System.out.println("Category bestaat al");
+                // Fetch the existing category from the database
+                category = categoryRepository.findById(newCategory.getCategoryId()).get();
+                System.out.println("Nieuwe category " + category.getCategory() + " is toegevoegd");
+                categories.add(category);
+            } else {
+                // Create and save the new category
+                category.setCategory(newCategory.getCategory());
+                System.out.println("Category is nieuw");
+                try {
+                    category = categoryRepository.save(category);
+                    categories.add(category);
+                    System.out.println("Nieuwe category " + category.getCategory() + " is toegevoegd");
+
+                    // Save and get the managed entity
+                } catch (Exception e) {
+                    return "Error: " + e.getMessage();
+                }
+            }
+        }
 
 
         if(bookRepository.existsById(newBook.getIsbn())) {
@@ -72,11 +100,18 @@ public class BookService {
                     System.out.println("Second check: " + newAuthor.getName());
                     book.addAuthor(newAuthor);
                 }
+                System.out.println("book.authors.size: " + book.getAuthors().size());
+                System.out.println("categories.size: " + categories.size());
+                for(Category newCategory : categories) {
+                    System.out.println("Second check: " + newCategory.getCategory());
+                    book.addCategory(newCategory);
+                }
+                System.out.println("book.categories.size: " + book.getCategories().size());
                 book.setYear(year);
                 book.setIsOnline(newBook.getIsOnline());
                 book.setIsPhysical(newBook.getIsPhysical());
                 book.setSummary(newBook.getSummary());
-                // book.setCategories(newBook.getCategories());
+//                book.setCategories(newBook.getCategories());
 
                 bookRepository.save(book);
             } catch (Exception e) {

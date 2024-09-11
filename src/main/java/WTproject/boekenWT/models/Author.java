@@ -42,11 +42,4 @@ public class Author {
         this.name = name;
     }
 
-    // public Set<Book> getBooks() {
-    //     return this.books;
-    // }
-
-    // public void setBooks(Set<Book> books) {
-    //     this.books = books;
-    // }
 }

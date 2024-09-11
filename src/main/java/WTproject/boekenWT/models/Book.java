@@ -28,8 +28,12 @@ public class Book {
     @Column
     private Year year;
 
-    @Column
-    private Set<Enums.Category> categories;
+    @ManyToMany
+    @JoinTable(
+    name = "CATEGORY_BOOK",
+    joinColumns = @JoinColumn(name = "isbn"),
+    inverseJoinColumns = @JoinColumn(name = "categoryId"))
+    private Set<Category> categories = new HashSet<Category>();
 
     @Column
     private boolean isOnline;
@@ -88,13 +92,15 @@ public class Book {
         this.year = year;
     }
 
-    public Set<Enums.Category> getCategories() {
+    public Set<Category> getCategories() {
         return this.categories;
     }
 
-    public void setCategories(Set<Enums.Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+
+    public void addCategory(Category category) { this.categories.add(category); }
 
     public boolean getIsOnline() {
         return this.isOnline;

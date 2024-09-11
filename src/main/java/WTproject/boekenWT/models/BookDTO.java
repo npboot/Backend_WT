@@ -7,6 +7,7 @@ import java.util.Set;
 public class BookDTO {
     Book book;
     Set<Author> authors = new HashSet<Author>();
+    Set<Category> categories = new HashSet<Category>();
     Year year;
 
     public Book getBook() {
@@ -15,6 +16,9 @@ public class BookDTO {
 
     public Set<Author> getAuthor() {
         return authors;
+    }
+    public Set<Category> getCategories() {
+        return categories;
     }
 
     public Year getYear() {
