@@ -1,6 +1,7 @@
 package WTproject.boekenWT.services;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -228,5 +229,16 @@ public class BookService {
             }
         }
         return categories;
+    }
+
+    public List<CatalogDTO> getAllCatalogData() {
+        Iterable<Book> books=bookRepository.findAll();
+
+        List<CatalogDTO> listCatalog=new ArrayList();
+        for (Book b:books) {
+            CatalogDTO cd = new CatalogDTO(b);
+            listCatalog.add(cd);
+        }
+        return listCatalog;
     }
 }

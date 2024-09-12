@@ -2,6 +2,7 @@ package WTproject.boekenWT.controllers;
 
 import WTproject.boekenWT.models.Book;
 import WTproject.boekenWT.models.BookDTO;
+import WTproject.boekenWT.models.CatalogDTO;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 import WTproject.boekenWT.services.BookService;
@@ -65,4 +66,10 @@ public class BookController {
     public String deleteBook(@RequestParam int isbn) {
         return bookService.deleteBookItem(isbn);
     }
+
+    @GetMapping("/catalog")
+    public List<CatalogDTO> getCatalogData(){
+
+        return bookService.getAllCatalogData();
+    };
 }
