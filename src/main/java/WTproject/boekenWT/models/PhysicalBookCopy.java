@@ -13,17 +13,19 @@ public class PhysicalBookCopy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int CopyId;
+    private int copyId;
 
     @ManyToOne
     @JoinColumn(name = "bookId")
     private PhysicalBook physicalBook;
 
-    @Column
-    private Enums.Condition physicalCondition;
+    @ManyToOne
+    @JoinColumn(name = "physicalConditionId")
+    private PhysicalCondition physicalCondition;
 
-    @Column
-    private Enums.BorrowingStatus status;
+    @ManyToOne
+    @JoinColumn(name = "borrowingStatusId")
+    private BorrowingStatus borrowingStatus;
 
     @Column
     private Date purchaseDate;
@@ -34,11 +36,11 @@ public class PhysicalBookCopy {
 
     //getters and setters
     public int getCopyId() {
-        return this.CopyId;
+        return this.copyId;
     }
 
-    public void setCopyId(int CopyId) {
-        this.CopyId = CopyId;
+    public void setCopyId(int copyId) {
+        this.copyId = copyId;
     }
 
     public PhysicalBook getPhysicalBook() {
@@ -49,20 +51,20 @@ public class PhysicalBookCopy {
         this.physicalBook = physicalBook;
     }
 
-    public Enums.Condition getPhysicalCondition() {
+    public PhysicalCondition getPhysicalCondition() {
         return this.physicalCondition;
     }
 
-    public void setPhysicalCondition(Enums.Condition physicalCondition) {
+    public void setPhysicalCondition(PhysicalCondition physicalCondition) {
         this.physicalCondition = physicalCondition;
     }
 
-    public Enums.BorrowingStatus getStatus() {
-        return this.status;
+    public BorrowingStatus getBorrowingStatus() {
+        return this.borrowingStatus;
     }
 
-    public void setStatus(Enums.BorrowingStatus status) {
-        this.status = status;
+    public void setBorrowingStatus(BorrowingStatus borrowingStatus) {
+        this.borrowingStatus = borrowingStatus;
     }
 
     public Date getPurchaseDate() {
