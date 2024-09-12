@@ -27,8 +27,6 @@ public class BookService {
     public String addBook(BookDTO bookTemplate) {
 
         Book book = new Book();
-        Set<Author> authors = new HashSet<Author>();
-        Set<Category> categories = new HashSet<Category>();
         Year year = bookTemplate.getYear();
 
         Set<Author> newAuthors = bookTemplate.getAuthor();
@@ -36,46 +34,9 @@ public class BookService {
         Book newBook = bookTemplate.getBook();
 
 
-        // Check if the author already exists
-        for(Author newAuthor: newAuthors) {
-            Author author = new Author();
-            if (authorRepository.existsById(newAuthor.getAuthorId())) {
-                // Fetch the existing author from the database
-                author = authorRepository.findById(newAuthor.getAuthorId()).get();
-                authors.add(author);
-            } else {
-                // Create and save the new author
-                author.setName(newAuthor.getName());
-                try {
-                    author = authorRepository.save(author);
-                    authors.add(author);
+        Set<Author> authors = addAuthorsForBook(newAuthors);
+        Set<Category> categories = addCategoriesForBook(newCategories);
 
-                    // Save and get the managed entity
-                } catch (Exception e) {
-                    return "Error: " + e.getMessage();
-                }
-            }
-        }
-        // Check if the category already exists
-        for(Category newCategory: newCategories) {
-            Category category = new Category();
-            if (categoryRepository.existsById(newCategory.getCategoryId())) {
-                // Fetch the existing category from the database
-                category = categoryRepository.findById(newCategory.getCategoryId()).get();
-                categories.add(category);
-            } else {
-                // Create and save the new category
-                category.setCategory(newCategory.getCategory());
-                try {
-                    category = categoryRepository.save(category);
-                    categories.add(category);
-
-                    // Save and get the managed entity
-                } catch (Exception e) {
-                    return "Error: " + e.getMessage();
-                }
-            }
-        }
 
         // Check if the book already exists
         if(bookRepository.existsById(newBook.getIsbn())) {
@@ -193,55 +154,10 @@ public class BookService {
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
-
-
-            // Check if the author already exists
-//            for(Author newAuthor: newAuthors) {
-//                Author author = new Author();
-//                if (authorRepository.existsById(newAuthor.getAuthorId())) {
-//                    // Fetch the existing author from the database
-//                    author = authorRepository.findById(newAuthor.getAuthorId()).get();
-//                    authors.add(author);
-//                } else {
-//                    // Create and save the new author
-//                    author.setName(newAuthor.getName());
-//                    try {
-//                        author = authorRepository.save(author);
-//                        authors.add(author);
-//
-//                        // Save and get the managed entity
-//                    } catch (Exception e) {
-//                        return "Error: " + e.getMessage();
-//                    }
-//                }
-//            }
         } else {
             return "This book does not yet exist, update failed.";
         }
-//        Book updatedBook = bookRepository.findById(book.getIsbn()).get();
-//        updatedBook.setTitle(book.getTitle());
-//        updatedBook.setYear(book.getYear());
-//
-//        // if (book.getAuthors().size() > 0) {
-//        //     for (int i = 0; i < book.getAuthors().size(); i++) {
-//        //         //if author doesn't exist, add it
-//        //         if (updatedBook.getAuthors().iterator().next().getAuthorId() != book.getAuthors().iterator().next().getAuthorId()) {
-//        //             updatedBook.addAuthor(book.getAuthors().iterator().next());
-//        //         }
-//        //     }
-//        // }
-//        Object[] authorArray = book.getAuthors().toArray();
-//
-//        for(int i=0; i < authorArray.length; i++) {
-//            Author author = (Author) authorArray[i];
-//            System.out.println("SECOND TEST:" + author);
-//        }
-//
-//        try {
-//            bookRepository.save(updatedBook);
-//        } catch (Exception e) {
-//            return "Error: " + e;
-//        }
+
         return "book id " + bookTemplate.getBook()+ " updated.";
     }
 
@@ -259,5 +175,58 @@ public class BookService {
         else {
             return "Book not found";
         }
+    }
+
+    public Set<Author> addAuthorsForBook(Set<Author> newAuthors) {
+        Set<Author> authors = new HashSet<>();
+
+        // Check if the author already exists
+        for(Author newAuthor: newAuthors) {
+            Author author = new Author();
+            if (authorRepository.existsById(newAuthor.getAuthorId())) {
+                // Fetch the existing author from the database
+                author = authorRepository.findById(newAuthor.getAuthorId()).get();
+                authors.add(author);
+            } else {
+                // Create and save the new author
+                author.setName(newAuthor.getName());
+                try {
+                    author = authorRepository.save(author);
+                    authors.add(author);
+
+                    // Save and get the managed entity
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
+                    return authors; // Return empty set
+                }
+            }
+        }
+        return authors;
+    }
+
+    public Set<Category> addCategoriesForBook(Set<Category> newCategories) {
+        Set<Category> categories = new HashSet<>();
+        // Check if the category already exists
+        for(Category newCategory: newCategories) {
+            Category category = new Category();
+            if (categoryRepository.existsById(newCategory.getCategoryId())) {
+                // Fetch the existing category from the database
+                category = categoryRepository.findById(newCategory.getCategoryId()).get();
+                categories.add(category);
+            } else {
+                // Create and save the new category
+                category.setCategory(newCategory.getCategory());
+                try {
+                    category = categoryRepository.save(category);
+                    categories.add(category);
+
+                    // Save and get the managed entity
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
+                    return categories; // Return empty set
+                }
+            }
+        }
+        return categories;
     }
 }
