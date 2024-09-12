@@ -1,13 +1,11 @@
 package WTproject.boekenWT.controllers;
 
-import WTproject.boekenWT.logic.BookCRUD.CreateBook;
-import WTproject.boekenWT.logic.BookCRUD.DeleteBook;
-import WTproject.boekenWT.logic.BookCRUD.ReadBook;
-import WTproject.boekenWT.logic.BookCRUD.UpdateBook;
 import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.TemplateClasses.CreateBookTemplate;
+import WTproject.boekenWT.models.BookDTO;
+import WTproject.boekenWT.models.CatalogDTO;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
+import WTproject.boekenWT.services.BookService;
 
 import java.util.List;
 
@@ -31,47 +29,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class BookController {
 
     @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private AuthorRepository authorRepository;
+    BookService bookService;
 
     @PostMapping("/addBook")    
-    public String addBook(@RequestBody CreateBookTemplate bookTemplate) {
-        CreateBook createBook = new CreateBook();
-        createBook.createBook(bookRepository, authorRepository);
-
-        return createBook.addBook(bookTemplate);
+    public String addBook(@RequestBody BookDTO bookTemplate) {
+        try {
+            return bookService.addBook(bookTemplate);
+        }
+        catch (Exception e) {
+            return "ErrorBC: " + e;
+        }
+        
     }
 
     @GetMapping("/getAllBooks")
     public List<Book> getBooks() {
-        ReadBook readBook = new ReadBook();
-        readBook.readBook(bookRepository);
-
-        return readBook.getAllBooks();
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/getBook")
-    public String getBook(@RequestParam String isbn) {
-        ReadBook readBook = new ReadBook();
-        readBook.readBook(bookRepository);
+    public String getBook(@RequestParam int isbn) {
 
-        return readBook.getBook(isbn);
+        return bookService.getBook(isbn);
     }
 
+//    @PutMapping("/updateBook")
+//    public String updateBook(@RequestBody Book book) {
+//        return bookService.updateBookData(book);
+//    }
     @PutMapping("/updateBook")
-    public String updateBook(@RequestBody Book book) {
-        UpdateBook updateBook = new UpdateBook();
-        updateBook.updateBook(bookRepository);
-
-        return updateBook.updateBookData(book);
+    public String updateBook(@RequestBody BookDTO bookTemplate) {
+    return bookService.updateBookData(bookTemplate);
     }
 
     @DeleteMapping("/deleteBook")
-    public String deleteBook(@RequestParam String isbn) {
-        DeleteBook deleteBook = new DeleteBook();
-        deleteBook.deleteBook(bookRepository);
-
-        return deleteBook.deleteBookItem(isbn);
+    public String deleteBook(@RequestParam int isbn) {
+        return bookService.deleteBookItem(isbn);
     }
+
+    @GetMapping("/catalog")
+    public List<CatalogDTO> getCatalogData(){
+
+        return bookService.getAllCatalogData();
+    };
 }

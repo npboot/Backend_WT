@@ -1,8 +1,7 @@
 package WTproject.boekenWT.repositories;
 
+import WTproject.boekenWT.models.PhysicalBook;
 import org.springframework.data.repository.CrudRepository;
 
-import WTproject.boekenWT.models.Book;
-
 // CRUD refers Create, Read, Update, Delete
-public interface BookRepository extends CrudRepository<Book, Integer> { }
+public interface PhysicalBookRepository extends CrudRepository<PhysicalBook, Integer> { }
