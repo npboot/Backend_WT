@@ -1,0 +1,12 @@
+{
+    "physicalBook": {
+    "isbn": "444444",
+    "archived": false,
+    "stock": 5
+    },
+    "physicalBook": {
+    "isbn": "444445",
+    "archived": false,
+    "stock": 3
+    }
+}
