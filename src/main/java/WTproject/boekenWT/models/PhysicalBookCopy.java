@@ -13,6 +13,7 @@ public class PhysicalBookCopy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "copy_id")
     private int copyId;
 
     @ManyToOne

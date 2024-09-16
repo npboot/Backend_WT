@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import WTproject.boekenWT.models.*;
-import WTproject.boekenWT.repositories.CategoryRepository;
+import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import WTproject.boekenWT.repositories.AuthorRepository;
-import WTproject.boekenWT.repositories.BookRepository;
 
 @Component
 public class BookService {
@@ -23,6 +20,14 @@ public class BookService {
     AuthorRepository authorRepository;
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    PhysicalBookRepository physicalBookRepository;
+    @Autowired
+    PhysicalBookCopyRepository physicalBookCopyRepository;
+
+    @Autowired
+    PhysicalConditionRepository physicalConditionRepository;
 
     //ADD
     public String addBook(BookDTO bookTemplate) {
@@ -68,9 +73,21 @@ public class BookService {
     }
 
     //GET
-    public String getBook(int isbn) {
+    public String getBookInfo(int isbn) {
         if(bookRepository.existsById(isbn)) {
             Book book = bookRepository.findById(isbn).get();
+            System.out.println("ISBN: " + isbn);
+            PhysicalBook physicalBook = physicalBookRepository.findPhysicalBookByIsbn(isbn);
+            System.out.println("physicalbook ISBN: " + physicalBook.getBook().getIsbn());
+            System.out.println("physicalbook TITEL: " + physicalBook.getBook().getTitle());
+            System.out.println("physicalbook STOCK: " + physicalBook.getStock());
+            List<PhysicalBookCopy> physicalBookCopies = physicalBookCopyRepository.findCopiesByIsbn(isbn);
+            for (PhysicalBookCopy copy: physicalBookCopies) {
+                PhysicalCondition physicalCondition = physicalConditionRepository.findConditionByCopyId(copy.getCopyId());
+                System.out.println("copy ID: " + copy.getCopyId());
+                System.out.println("copy CONDITION: " + physicalCondition.getConditionType());
+            }
+
             return "Book found, " + book.getTitle() + ", with isbn: " +  isbn; //Nog even nadenken over wat we hier daadwerkelijk willen returnen.
         }
         else {

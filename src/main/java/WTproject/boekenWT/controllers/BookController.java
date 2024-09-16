@@ -47,10 +47,10 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping("/getBook")
-    public String getBook(@RequestParam int isbn) {
+    @GetMapping("/getBookInfo")
+    public String getBookInfo(@RequestParam int isbn) {
 
-        return bookService.getBook(isbn);
+        return bookService.getBookInfo(isbn);
     }
 
 //    @PutMapping("/updateBook")

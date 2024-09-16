@@ -9,6 +9,7 @@ public class PhysicalBook {
     //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
     private int bookId;
 
     @OneToOne
