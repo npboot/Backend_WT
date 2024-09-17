@@ -6,7 +6,7 @@ public class PhysicalBookCopyDTO {
     PhysicalBookCopy copy;
     Date purchaseDate;
     PhysicalCondition condition;
-    BorrowingStatus borrowingStatus;
+    Availability availability;
 
     public PhysicalBookCopy getPhysicalBookCopy() {
         return copy;
@@ -20,7 +20,7 @@ public class PhysicalBookCopyDTO {
         return condition;
     }
 
-    public BorrowingStatus getBorrowingStatus() {
-        return borrowingStatus;
+    public Availability getAvailability() {
+        return availability;
     }
 }

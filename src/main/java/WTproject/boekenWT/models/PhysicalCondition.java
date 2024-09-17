@@ -10,6 +10,7 @@ public class PhysicalCondition {
     // Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "physical_condition_id")
     private int physicalConditionId;
 
     @Column

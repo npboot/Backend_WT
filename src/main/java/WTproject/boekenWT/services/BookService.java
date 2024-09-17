@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import WTproject.boekenWT.models.*;
-import WTproject.boekenWT.repositories.CategoryRepository;
+import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import WTproject.boekenWT.repositories.AuthorRepository;
-import WTproject.boekenWT.repositories.BookRepository;
 
 @Component
 public class BookService {
@@ -23,6 +20,14 @@ public class BookService {
     AuthorRepository authorRepository;
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    PhysicalBookRepository physicalBookRepository;
+    @Autowired
+    PhysicalBookCopyRepository physicalBookCopyRepository;
+
+    @Autowired
+    PhysicalConditionRepository physicalConditionRepository;
 
     //ADD
     public String addBook(BookDTO bookTemplate) {
@@ -68,13 +73,22 @@ public class BookService {
     }
 
     //GET
-    public String getBook(int isbn) {
+    public List<PhysicalBookCopy> getBookInfo(int isbn) {
+        List<PhysicalBookCopy> physicalBookCopies = new ArrayList<>();
         if(bookRepository.existsById(isbn)) {
+
             Book book = bookRepository.findById(isbn).get();
-            return "Book found, " + book.getTitle() + ", with isbn: " +  isbn; //Nog even nadenken over wat we hier daadwerkelijk willen returnen.
+            System.out.println("ISBN: " + isbn);
+
+            PhysicalBook physicalBook = physicalBookRepository.findPhysicalBookByIsbn(isbn);
+            System.out.println("physicalbook ISBN: " + physicalBook.getBook().getIsbn());
+            System.out.println("physicalbook TITEL: " + physicalBook.getBook().getTitle());
+            System.out.println("physicalbook STOCK: " + physicalBook.getStock());
+
+            return physicalBookCopyRepository.findCopiesByIsbn(isbn);
         }
         else {
-            return "Book not found";
+            return physicalBookCopies;
         }
     }
 
