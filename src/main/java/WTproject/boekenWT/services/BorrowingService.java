@@ -1,15 +1,13 @@
 package WTproject.boekenWT.services;
 
-import WTproject.boekenWT.models.Borrowing;
-import WTproject.boekenWT.models.BorrowingInfoDTO;
-import WTproject.boekenWT.models.PhysicalBook;
-import WTproject.boekenWT.models.Request;
+import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class BorrowingService {
@@ -20,6 +18,8 @@ public class BorrowingService {
     UserRepository userRepository;
     @Autowired
     PhysicalBookRepository physicalBookRepository;
+    @Autowired
+    PhysicalBookCopyRepository physicalBookCopyRepository;
     @Autowired
     RequestRepository requestRepository;
     @Autowired
@@ -65,10 +65,12 @@ public class BorrowingService {
                     newBorrowing.setStartDate(new Date());
                     newBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(1).get());
 
-                    //
-//                    newBorrowing.setPhysicalBookCopy(physicalBookRepository.findById());
+                    //get a physical bookcopy that is available
+                    List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType("beschikbaar");
 
-//                    requestRepository.save(newBorrowing);
+                    newBorrowing.setPhysicalBookCopy(availableCopies.getFirst());
+
+                    borrowingRepository.save(newBorrowing);
                 } catch (Exception e) {
                     return "ErrorBS: " + e;
                 }
