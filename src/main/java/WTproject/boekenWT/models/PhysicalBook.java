@@ -25,6 +25,16 @@ public class PhysicalBook {
 //    private Set<PhysicalBookCopy> physicalBookCopies;
 
     //getters and setters
+
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
     public Book getBook() {
         return this.book;
     }

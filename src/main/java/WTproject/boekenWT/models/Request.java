@@ -2,7 +2,8 @@ package WTproject.boekenWT.models;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 @Entity
 @Table(name="REQUEST")
@@ -22,7 +23,8 @@ public class Request {
     private PhysicalBook physicalBook;
 
     @Column
-    private Date requestDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp requestDate;
 
     @ManyToOne
     @JoinColumn(name = "requestStatusId")
@@ -49,11 +51,11 @@ public class Request {
         this.physicalBook = physicalBook;
     }
 
-    public Date getRequestDate() {
+    public Timestamp getRequestDate() {
         return requestDate;
     }
 
-    public void setRequestDate(Date requestDate) {
+    public void setRequestDate(Timestamp requestDate) {
         this.requestDate = requestDate;
     }
 
