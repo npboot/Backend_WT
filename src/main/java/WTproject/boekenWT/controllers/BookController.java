@@ -70,5 +70,5 @@ public class BookController {
     public List<CatalogDTO> getCatalogData(){
 
         return bookService.getAllCatalogData();
-    };
+    }
 }
