@@ -21,8 +21,8 @@ public class PhysicalBook {
     @Column
     private boolean archived;
 
-    @OneToMany(mappedBy = "physicalBook")
-    private Set<PhysicalBookCopy> physicalBookCopies;
+//    @OneToMany(mappedBy = "physicalBook")
+//    private Set<PhysicalBookCopy> physicalBookCopies;
 
     //getters and setters
     public Book getBook() {
