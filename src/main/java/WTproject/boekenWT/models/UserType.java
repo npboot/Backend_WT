@@ -5,6 +5,13 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="USERTYPE")
 public class UserType {
+    //attributes
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int userTypeId;
+
+    @Column
+    private String userTypeName;
 
     public int getUserTypeId() {
         return userTypeId;
@@ -22,12 +29,6 @@ public class UserType {
         this.userTypeName = userTypeName;
     }
 
-    //attributes
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userTypeId;
 
-    @Column
-    private String userTypeName;
 
 }

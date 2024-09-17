@@ -17,6 +17,20 @@ public class User {
     @Column
     private String password;
 
+    @Column
+    private int age;
+
+    @Column
+    private String email;
+
+    @Column
+    private String phoneNumber;
+
+    // fech = Eager to always get the userType when loding the user
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userTypeId")
+    private UserType userType;
+
     public int getUserId() {
         return userId;
     }
@@ -73,17 +87,6 @@ public class User {
         this.userType = userType;
     }
 
-    @Column
-    private int age;
 
-    @Column
-    private String email;
-
-    @Column
-    private String phoneNumber;
-
-    @ManyToOne
-    @JoinColumn(name = "userTypeId")
-    private UserType userType;
 
 }
