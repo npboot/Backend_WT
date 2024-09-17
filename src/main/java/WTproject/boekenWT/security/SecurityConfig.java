@@ -19,6 +19,8 @@ import static org.springframework.http.HttpMethod.GET;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http

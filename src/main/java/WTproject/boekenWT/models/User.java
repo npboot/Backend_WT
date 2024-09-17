@@ -6,6 +6,12 @@ import jakarta.persistence.*;
 @Table(name="USER")
 public class User {
 
+    public User(String name, String password, UserType usertype) {
+        this.name = name;
+        this.password = password;
+        this.userType = usertype;
+    }
+
     //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
