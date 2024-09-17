@@ -59,7 +59,7 @@ public class BorrowingService {
         if(requestRepository.existsById(requestId)) {
             Request oldRequest = requestRepository.findById(requestId).get();
 
-            if(userRepository.existsById(oldRequest.getUser().getUserId()) && physicalBookRepository.existsById(oldRequest.getPhysicalBook().getBookId())){
+            if(userRepository.existsById(oldRequest.getUser().getUserId()) && physicalBookRepository.existsById(oldRequest.getPhysicalBook().getPBookId())){
                 try {
                     newBorrowing.setRequest(oldRequest);
                     newBorrowing.setStartDate(new Date());

@@ -28,12 +28,12 @@ public class PhysicalBook {
     //getters and setters
 
 
-    public int getBookId() {
-        return bookId;
+    public int getPBookId() {
+        return pBookId;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setPBookId(int pBookId) {
+        this.pBookId = pBookId;
     }
 
     public Book getBook() {
