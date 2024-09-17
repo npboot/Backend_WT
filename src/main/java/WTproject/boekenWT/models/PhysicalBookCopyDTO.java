@@ -5,8 +5,8 @@ import java.util.Date;
 public class PhysicalBookCopyDTO {
     PhysicalBookCopy copy;
     Date purchaseDate;
-    Enums.Condition condition;
-    Enums.BorrowingStatus borrowingStatus;
+    PhysicalCondition condition;
+    BorrowingStatus borrowingStatus;
 
     public PhysicalBookCopy getPhysicalBookCopy() {
         return copy;
@@ -16,11 +16,11 @@ public class PhysicalBookCopyDTO {
         return purchaseDate;
     }
 
-    public Enums.Condition getCondition() {
+    public PhysicalCondition getCondition() {
         return condition;
     }
 
-    public Enums.BorrowingStatus getBorrowingStatus() {
+    public BorrowingStatus getBorrowingStatus() {
         return borrowingStatus;
     }
 }

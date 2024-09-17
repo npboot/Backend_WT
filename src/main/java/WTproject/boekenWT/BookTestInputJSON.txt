@@ -1,0 +1,60 @@
+{
+    "book": {
+    "title": "check",
+    "isbn": 444444,
+    "isOnline": true,
+    "isPhysical": true,
+    "summary": "Beste samenvatting die je ooit zult zien"
+    },
+    "author": [{
+        "name": "Joe"
+    },
+    {
+        "name": "Hoe"
+    },
+    {
+        "name": "Loe"
+    }],
+    "year": 2014,
+    "categories": [{
+        "category": "PROGRAMMING"
+    }, 
+    {
+        "category": "C#"
+    },
+    {
+        "category": "BEGINNER" 
+    }]
+ 
+}
+
+
+{
+    "book": {
+    "title": "check",
+    "isbn": 444445,
+    "isOnline": false,
+    "isPhysical": true,
+    "summary": "Tweede beste samenvatting die je ooit zult zien"
+    },
+    "author": [{
+        "name": "Joe"
+    },
+    {
+        "name": "Hoe"
+    },
+    {
+        "name": "Moe"
+    }],
+    "year": 2014,
+    "categories": [{
+        "category": "PROGRAMMING"
+    }, 
+    {
+        "category": "PYTHON"
+    },
+    {
+        "category": "ADVANCED" 
+    }]
+ 
+}
