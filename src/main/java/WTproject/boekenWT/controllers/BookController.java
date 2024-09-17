@@ -1,13 +1,12 @@
 package WTproject.boekenWT.controllers;
 
-import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.BookDTO;
-import WTproject.boekenWT.models.CatalogDTO;
+import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.repositories.AuthorRepository;
 import WTproject.boekenWT.repositories.BookRepository;
 import WTproject.boekenWT.services.BookService;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -48,7 +47,7 @@ public class BookController {
     }
 
     @GetMapping("/getBookInfo")
-    public String getBookInfo(@RequestParam int isbn) {
+    public List<PhysicalBookCopy> getBookInfo(@RequestParam int isbn) {
 
         return bookService.getBookInfo(isbn);
     }

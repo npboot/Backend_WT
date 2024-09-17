@@ -10,7 +10,7 @@ public class PhysicalBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
-    private int bookId;
+    private int pBookId;
 
     @OneToOne
     @JoinColumn(name = "isbn")

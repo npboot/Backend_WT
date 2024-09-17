@@ -25,8 +25,8 @@ public class PhysicalBookCopy {
     private PhysicalCondition physicalCondition;
 
     @ManyToOne
-    @JoinColumn(name = "borrowingStatusId")
-    private BorrowingStatus borrowingStatus;
+    @JoinColumn(name = "AvailabilityId")
+    private Availability availability;
 
     @Column
     private Date purchaseDate;
@@ -60,12 +60,12 @@ public class PhysicalBookCopy {
         this.physicalCondition = physicalCondition;
     }
 
-    public BorrowingStatus getBorrowingStatus() {
-        return this.borrowingStatus;
+    public Availability getAvailability() {
+        return this.availability;
     }
 
-    public void setBorrowingStatus(BorrowingStatus borrowingStatus) {
-        this.borrowingStatus = borrowingStatus;
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
     }
 
     public Date getPurchaseDate() {

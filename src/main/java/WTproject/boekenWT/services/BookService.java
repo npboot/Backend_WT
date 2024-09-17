@@ -73,25 +73,22 @@ public class BookService {
     }
 
     //GET
-    public String getBookInfo(int isbn) {
+    public List<PhysicalBookCopy> getBookInfo(int isbn) {
+        List<PhysicalBookCopy> physicalBookCopies = new ArrayList<>();
         if(bookRepository.existsById(isbn)) {
+
             Book book = bookRepository.findById(isbn).get();
             System.out.println("ISBN: " + isbn);
+
             PhysicalBook physicalBook = physicalBookRepository.findPhysicalBookByIsbn(isbn);
             System.out.println("physicalbook ISBN: " + physicalBook.getBook().getIsbn());
             System.out.println("physicalbook TITEL: " + physicalBook.getBook().getTitle());
             System.out.println("physicalbook STOCK: " + physicalBook.getStock());
-            List<PhysicalBookCopy> physicalBookCopies = physicalBookCopyRepository.findCopiesByIsbn(isbn);
-            for (PhysicalBookCopy copy: physicalBookCopies) {
-                PhysicalCondition physicalCondition = physicalConditionRepository.findConditionByCopyId(copy.getCopyId());
-                System.out.println("copy ID: " + copy.getCopyId());
-                System.out.println("copy CONDITION: " + physicalCondition.getConditionType());
-            }
 
-            return "Book found, " + book.getTitle() + ", with isbn: " +  isbn; //Nog even nadenken over wat we hier daadwerkelijk willen returnen.
+            return physicalBookCopyRepository.findCopiesByIsbn(isbn);
         }
         else {
-            return "Book not found";
+            return physicalBookCopies;
         }
     }
 
