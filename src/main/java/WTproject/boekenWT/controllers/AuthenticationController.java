@@ -28,7 +28,10 @@ public class AuthenticationController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepository, UserTypeRepository typeRepository, PasswordEncoder passwordEncoder, UserTypeRepository userTypeRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepository,
+                                    UserTypeRepository typeRepository,
+                                    PasswordEncoder passwordEncoder,
+                                    UserTypeRepository userTypeRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -44,7 +47,7 @@ public class AuthenticationController {
         user.setName(registerDto.getName());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        UserType userType = userTypeRepository.findByUserTypeName("USER").get();
+        UserType userType = userTypeRepository.findByUserTypeName("Trainer").orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
         user.setUserType(userType);
 
         userRepository.save(user);
