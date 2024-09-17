@@ -22,10 +22,20 @@ public class PhysicalBook {
     @Column
     private boolean archived;
 
-    @OneToMany(mappedBy = "physicalBook")
-    private Set<PhysicalBookCopy> physicalBookCopies;
+//    @OneToMany(mappedBy = "physicalBook")
+//    private Set<PhysicalBookCopy> physicalBookCopies;
 
     //getters and setters
+
+
+    public int getPBookId() {
+        return pBookId;
+    }
+
+    public void setPBookId(int pBookId) {
+        this.pBookId = pBookId;
+    }
+
     public Book getBook() {
         return this.book;
     }
