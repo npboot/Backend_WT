@@ -1,15 +1,17 @@
 package WTproject.boekenWT.models;
 
 import jakarta.persistence.*;
-
 import java.util.Set;
 
 @Entity
 @Table(name="AVAILABILITY")
 public class Availability {
+
     // Attributes
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "availability_id")
     private int availabilityId;
 
     @Column
@@ -35,11 +37,4 @@ public class Availability {
         this.availabilityType = availabilityType;
     }
 
-    public Set<PhysicalBookCopy> getPhysicalBookCopies() {
-        return physicalBookCopies;
-    }
-
-    public void setPhysicalBookCopies(Set<PhysicalBookCopy> physicalBookCopies) {
-        this.physicalBookCopies = physicalBookCopies;
-    }
 }

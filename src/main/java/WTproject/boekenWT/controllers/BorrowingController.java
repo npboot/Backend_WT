@@ -40,7 +40,14 @@ public class BorrowingController {
 
     }
 
-//    PostMapping("/addBorrowing")
-//    public String addBorrowing(@RequestBody NewBorrowingDTO)
+    @PostMapping("/addBorrowing")
+    public String addBorrowing(@RequestParam int requestId){
+        try {
+            return borrowingService.addBorrowing(requestId);
+        }
+        catch (Exception e) {
+            return "ErrorBC: " + e;
+        }
+    }
 
 }
