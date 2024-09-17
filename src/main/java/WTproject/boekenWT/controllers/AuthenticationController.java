@@ -1,5 +1,6 @@
 package WTproject.boekenWT.controllers;
 
+import WTproject.boekenWT.models.LoginDTO;
 import WTproject.boekenWT.models.RegisterDTO;
 import WTproject.boekenWT.models.User;
 import WTproject.boekenWT.models.UserType;
@@ -9,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,4 +59,14 @@ public class AuthenticationController {
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getName(),
+                                                                                                                   loginDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("Authentication success!", HttpStatus.OK);
+    }
+
+
 }
