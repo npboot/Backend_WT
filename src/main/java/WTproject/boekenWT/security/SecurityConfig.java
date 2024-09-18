@@ -25,17 +25,21 @@ import static org.springframework.http.HttpMethod.GET;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private JwtAuthEntryPoint jwtAuthEntryPoint;
+
     private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.userDetailsService = userDetailsService;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)//  .csrf().disable()
+                .exceptionHandling()
                 .authorizeRequests()
                 .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
