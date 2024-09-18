@@ -69,7 +69,7 @@ public class BorrowingService {
                     newBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(1).get());
 
                     //get a physical bookcopy that is available
-                    List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType("beschikbaar");
+                    List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType(oldRequest.getPhysicalBook().getPBookId(), 1);
 
                     if(!availableCopies.isEmpty()) {
                         newBorrowing.setPhysicalBookCopy(availableCopies.getFirst());

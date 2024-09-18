@@ -15,8 +15,8 @@ public interface PhysicalBookCopyRepository extends CrudRepository<PhysicalBookC
 
 
     @Query(
-            value = "SELECT pbc.* FROM PHYSICALBOOKCOPY pbc INNER JOIN AVAILABILITY a ON pbc.availability_id = a.availability_id WHERE a.availability_type = ?1",
+            value = "SELECT pbc.* FROM PHYSICALBOOKCOPY pbc WHERE pbc.book_id = ?1 AND pbc.availability_id = ?2",
             nativeQuery = true)
-    List<PhysicalBookCopy> findCopiesByAvailabilityType(String type);
+    List<PhysicalBookCopy> findCopiesByAvailabilityType(int pBookId, int availabilityId);
 }
 
