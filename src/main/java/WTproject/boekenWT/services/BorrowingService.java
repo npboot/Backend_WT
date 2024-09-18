@@ -72,15 +72,15 @@ public class BorrowingService {
                     newBorrowing.setPhysicalBookCopy(availableCopies.getFirst());
 
                     borrowingRepository.save(newBorrowing);
+                    return "New borrowing made!";
+
                 } catch (Exception e) {
                     return "ErrorBS: " + e;
                 }
             }
+            return "Either UserID or PhysicalBookID was not found";
         }
-
-
-
-        return "New borrowing made!";
+        return "RequestID not found";
     }
 
     //read Borrowings by users
@@ -93,6 +93,29 @@ public class BorrowingService {
             return borrowings;
         }
     }
+    public String updateRequestStatus(int requestId) {
+        Request oldRequest = new Request();
+
+        if (requestRepository.existsById(requestId)) {
+            try {
+                oldRequest = requestRepository.findById(requestId).get();
+                oldRequest.setRequestStatus(requestStatusRepository.findById(2).get());
+
+                requestRepository.save(oldRequest);
+                return "The request status has been updated";
+
+
+            } catch (Exception e) {
+                return "ErrorBS: " + e;
+            }
+        }
+        return "request was not found";
+
+    }
+
+
+
+
 
     //read Borrowing by borrowingid
     public Borrowing getBorrowingInfo(int borrowingId){
@@ -114,7 +137,6 @@ public class BorrowingService {
                 Borrowing oldBorrowing = borrowingRepository.findById(borrowingId).get();
                 oldBorrowing.setReturnDate(new Date());
                 oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
-
 
                 borrowingRepository.save(oldBorrowing);
             } catch (Exception e) {
