@@ -1,5 +1,7 @@
 *
 
 !src/
-
+src/main/java/WTproject/boekenWT/BookTestInputJSON.txt
+src/main/java/WTproject/boekenWT/PhysicalBookCopyTestInputJSON.txt
+src/main/java/WTproject/boekenWT/PhysicalBookTestInputJSON.txt
 !pom.xml

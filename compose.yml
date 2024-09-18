@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  BoekenWT_Backend:
+    container_name: BoekenWT_Backend
+    build:
+      dockerfile: Dockerfile
+    image: boekenwt_backend:latest
+    ports:
+      - 8082:8082
+    env_file:
+      - src/main/resources/.env
+      - src/main/resources/application.properties
+    environment:
+      - 'DATASOURCE_ORIGIN=host.docker.internal:3306'
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/bibliotheek?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+      - 'USERNAME=root'
+      - 'PASSWORD='

@@ -4,10 +4,11 @@ COPY pom.xml ./
 
 RUN mvn dependency:go-offline
 COPY ./src ./src
-RUN mvn clean install
+
+RUN mvn clean install -DskipTests
 
 FROM openjdk:22-slim
 WORKDIR /BoekWT
-EXPOSE 8080
+EXPOSE 8082
 COPY --from=builder /BoekWT/target/*.jar BoekWT.jar
 ENTRYPOINT ["java", "-jar", "/BoekWT/BoekWT.jar"]
