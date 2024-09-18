@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @SpringBootApplication
 @CrossOrigin
 @RestController
@@ -27,6 +29,11 @@ public class BorrowingController {
 //        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getReturnDate());
 //        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getCopyID());
         return borrowingService.getBorrowingInfo(borrowingId);
+    }
+
+    @GetMapping("/getBorrowings")
+    public List<Borrowing> getBorrowingsInfo(@RequestParam int userId){
+        return borrowingService.getBorrowings(userId);
     }
 
     @PostMapping("/addRequest")
