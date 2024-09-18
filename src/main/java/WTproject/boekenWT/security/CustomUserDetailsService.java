@@ -37,4 +37,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         return List.of(new SimpleGrantedAuthority(userType.getUserTypeName()));
     }
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }
