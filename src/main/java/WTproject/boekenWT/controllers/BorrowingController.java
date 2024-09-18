@@ -52,9 +52,8 @@ public class BorrowingController {
         try {
 
             String addBorrowing = borrowingService.addBorrowing(requestId);
-            String updateRequestStatus = borrowingService.updateRequestStatus(requestId);
 
-            return addBorrowing+", "+updateRequestStatus;
+            return addBorrowing;
         }
         catch (Exception e) {
             return "ErrorBC: " + e;

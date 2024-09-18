@@ -27,6 +27,8 @@ public class BorrowingService {
     RequestStatusRepository requestStatusRepository;
     @Autowired
     BorrowingStatusRepository borrowingStatusRepository;
+    @Autowired
+    AvailabilityRepository availabilityRepository;
 
     //create new Request
     public String addRequest(int pBookId, int userId) {
@@ -69,10 +71,18 @@ public class BorrowingService {
                     //get a physical bookcopy that is available
                     List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType("beschikbaar");
 
-                    newBorrowing.setPhysicalBookCopy(availableCopies.getFirst());
+                    if(!availableCopies.isEmpty()) {
+                        newBorrowing.setPhysicalBookCopy(availableCopies.getFirst());
+                    } else {
+                        return "Er zijn geen copies beschikbaar";
+                    }
 
                     borrowingRepository.save(newBorrowing);
-                    return "New borrowing made!";
+
+                    String updateRequestStatus = updateRequestStatus(requestId);
+                    String updateAvailability = updateAvailability(newBorrowing.getPhysicalBookCopy().getCopyId(), 2);
+
+                    return "New borrowing made! & " + updateRequestStatus + " & " + updateAvailability;
 
                 } catch (Exception e) {
                     return "ErrorBS: " + e;
@@ -93,6 +103,7 @@ public class BorrowingService {
             return borrowings;
         }
     }
+
     public String updateRequestStatus(int requestId) {
         Request oldRequest = new Request();
 
@@ -110,12 +121,26 @@ public class BorrowingService {
             }
         }
         return "request was not found";
-
     }
 
+    public String updateAvailability(int copyId, int avaialbilityID) {
+        PhysicalBookCopy oldCopy = new PhysicalBookCopy();
+
+        if (physicalBookCopyRepository.existsById(copyId)) {
+            try {
+                oldCopy = physicalBookCopyRepository.findById(copyId).get();
+                oldCopy.setAvailability(availabilityRepository.findById(avaialbilityID).get());
+
+                physicalBookCopyRepository.save(oldCopy);
+                return "The availability has been updated";
 
 
-
+            } catch (Exception e) {
+                return "ErrorBS: " + e;
+            }
+        }
+        return "copy was not found";
+    }
 
     //read Borrowing by borrowingid
     public Borrowing getBorrowingInfo(int borrowingId){
@@ -139,6 +164,9 @@ public class BorrowingService {
                 oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
 
                 borrowingRepository.save(oldBorrowing);
+
+                updateAvailability(oldBorrowing.getPhysicalBookCopy().getCopyId(), 1);
+
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
