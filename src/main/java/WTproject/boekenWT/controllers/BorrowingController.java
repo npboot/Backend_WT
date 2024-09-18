@@ -57,4 +57,14 @@ public class BorrowingController {
         }
     }
 
+    @PutMapping("/returnBorrowing")
+    public String returnBorrowing(@RequestParam int borrowingId) {
+        try {
+            return borrowingService.returnBorrowing(borrowingId);
+        }
+        catch (Exception e) {
+            return "ErrorBC: " + e;
+        }
+    }
+
 }

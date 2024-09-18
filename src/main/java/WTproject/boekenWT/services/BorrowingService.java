@@ -105,4 +105,22 @@ public class BorrowingService {
         }
         return borrowing;
     }
+
+    public String returnBorrowing(int borrowingId) {
+
+        //check if request exists
+        if(borrowingRepository.existsById(borrowingId)) {
+            try {
+                Borrowing oldBorrowing = borrowingRepository.findById(borrowingId).get();
+                oldBorrowing.setReturnDate(new Date());
+                oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
+
+
+                borrowingRepository.save(oldBorrowing);
+            } catch (Exception e) {
+                return "ErrorBS: " + e;
+            }
+        }
+        return "Boek is ingeleverd!";
+    }
 }
