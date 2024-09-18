@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,15 +84,24 @@ public class BorrowingService {
     }
 
     //read Borrowings by users
+    public List<Borrowing> getBorrowings(int userId) {
+        List<Borrowing> borrowings = new ArrayList<>();
+
+        if(userRepository.existsById(userId)){
+            return borrowingRepository.findBorrowingsByUserId(userId);
+        } else {
+            return borrowings;
+        }
+    }
 
     //read Borrowing by borrowingid
     public Borrowing getBorrowingInfo(int borrowingId){
-        BorrowingInfoDTO bInfo = null;
+//        BorrowingInfoDTO bInfo = null;
         Borrowing borrowing =  new Borrowing();
 
         if(borrowingRepository.existsById(borrowingId)) {
             borrowing = borrowingRepository.findById(borrowingId).get();
-            bInfo = new BorrowingInfoDTO(borrowing);
+//            bInfo = new BorrowingInfoDTO(borrowing);
         }
         return borrowing;
     }
