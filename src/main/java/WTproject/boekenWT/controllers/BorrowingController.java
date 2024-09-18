@@ -50,11 +50,23 @@ public class BorrowingController {
     @PostMapping("/addBorrowing")
     public String addBorrowing(@RequestParam int requestId){
         try {
-            return borrowingService.addBorrowing(requestId);
+
+            String addBorrowing = borrowingService.addBorrowing(requestId);
+
+            return addBorrowing;
         }
         catch (Exception e) {
             return "ErrorBC: " + e;
         }
     }
 
+    @PutMapping("/returnBorrowing")
+    public String returnBorrowing(@RequestParam int borrowingId) {
+        try {
+            return borrowingService.returnBorrowing(borrowingId);
+        }
+        catch (Exception e) {
+            return "ErrorBC: " + e;
+        }
+    }
 }
