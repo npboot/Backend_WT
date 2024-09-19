@@ -30,7 +30,7 @@ public class BorrowingService {
     @Autowired
     AvailabilityRepository availabilityRepository;
 
-    //create new Request
+    //create new Request with the pBookId and the userId
     public String addRequest(int pBookId, int userId) {
 
         Request newRequest = new Request();
@@ -53,7 +53,7 @@ public class BorrowingService {
         return "New request made!";
     }
 
-    //create new Borrowing
+    //create new Borrowing from a Request with the requestId
     public String addBorrowing(int requestId) {
 
         Borrowing newBorrowing = new Borrowing();
@@ -93,17 +93,22 @@ public class BorrowingService {
         return "RequestID not found";
     }
 
-    //read Borrowings by users
-    public List<Borrowing> getBorrowings(int userId) {
-        List<Borrowing> borrowings = new ArrayList<>();
+    //read Borrowings of a User with the userId
+    public List<BorrowingInfoDTO> getBorrowings(int userId) {
+        List<BorrowingInfoDTO> borrowingsDTO = new ArrayList<>();
 
         if(userRepository.existsById(userId)){
-            return borrowingRepository.findBorrowingsByUserId(userId);
+            for(Borrowing borrowing:borrowingRepository.findBorrowingsByUserId(userId)) {
+                BorrowingInfoDTO borrowingDTO = new BorrowingInfoDTO(borrowing);
+                borrowingsDTO.add(borrowingDTO);
+            }
+            return borrowingsDTO;
         } else {
-            return borrowings;
+            return borrowingsDTO;
         }
     }
 
+    //update RequestStatus of a Request with the requestId
     public String updateRequestStatus(int requestId) {
         Request oldRequest = new Request();
 
@@ -114,8 +119,6 @@ public class BorrowingService {
 
                 requestRepository.save(oldRequest);
                 return "The request status has been updated";
-
-
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
@@ -123,6 +126,7 @@ public class BorrowingService {
         return "request was not found";
     }
 
+    //update the Availability of a PBookCopy with the copyId and availabilityId
     public String updateAvailability(int copyId, int avaialbilityID) {
         PhysicalBookCopy oldCopy = new PhysicalBookCopy();
 
@@ -133,8 +137,6 @@ public class BorrowingService {
 
                 physicalBookCopyRepository.save(oldCopy);
                 return "The availability has been updated";
-
-
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
@@ -142,18 +144,19 @@ public class BorrowingService {
         return "copy was not found";
     }
 
-    //read Borrowing by borrowingid
-    public Borrowing getBorrowingInfo(int borrowingId){
-//        BorrowingInfoDTO bInfo = null;
+    //read Borrowing with the borrowingId
+    public BorrowingInfoDTO getBorrowingInfo(int borrowingId){
+        BorrowingInfoDTO bInfo = null;
         Borrowing borrowing =  new Borrowing();
 
         if(borrowingRepository.existsById(borrowingId)) {
             borrowing = borrowingRepository.findById(borrowingId).get();
-//            bInfo = new BorrowingInfoDTO(borrowing);
+            bInfo = new BorrowingInfoDTO(borrowing);
         }
-        return borrowing;
+        return bInfo;
     }
 
+    //update Borrowing and PBookCopy with the borrowingId
     public String returnBorrowing(int borrowingId) {
 
         //check if request exists

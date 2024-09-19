@@ -20,12 +20,10 @@ public class BookService {
     AuthorRepository authorRepository;
     @Autowired
     CategoryRepository categoryRepository;
-
     @Autowired
     PhysicalBookRepository physicalBookRepository;
     @Autowired
     PhysicalBookCopyRepository physicalBookCopyRepository;
-
     @Autowired
     PhysicalConditionRepository physicalConditionRepository;
 
