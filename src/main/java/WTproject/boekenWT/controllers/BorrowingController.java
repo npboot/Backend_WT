@@ -20,19 +20,12 @@ public class BorrowingController {
     BorrowingService borrowingService;
 
     @GetMapping("/getInfo")
-    public Borrowing getBorrowingInfo(@RequestParam int borrowingId) {
-//        return borrowingService.getBorrowingInfo(borrowingId);
-//        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getTitle());
-//        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getBorrowingDate());
-//        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getIsbn());
-//        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getAuthorName());
-//        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getReturnDate());
-//        System.out.println(borrowingService.getBorrowingInfo(borrowingId).getCopyID());
+    public BorrowingInfoDTO getBorrowingInfo(@RequestParam int borrowingId) {
         return borrowingService.getBorrowingInfo(borrowingId);
     }
 
     @GetMapping("/getBorrowings")
-    public List<Borrowing> getBorrowingsInfo(@RequestParam int userId){
+    public List<BorrowingInfoDTO> getBorrowingsInfo(@RequestParam int userId){
         return borrowingService.getBorrowings(userId);
     }
 

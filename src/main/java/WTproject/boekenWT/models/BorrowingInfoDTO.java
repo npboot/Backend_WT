@@ -1,5 +1,7 @@
 package WTproject.boekenWT.models;
 
+import java.util.Date;
+
 public class BorrowingInfoDTO {
     private int isbn;
     private String status;
@@ -8,7 +10,7 @@ public class BorrowingInfoDTO {
     private int copyID;
     private String note;
     private String borrowingDate;
-    private String returnDate;
+    private Date returnDate;
 
     public BorrowingInfoDTO(Borrowing borrowing) {
         isbn = borrowing.getPhysicalBookCopy().getPhysicalBook().getBook().getIsbn();
@@ -21,7 +23,7 @@ public class BorrowingInfoDTO {
         copyID = borrowing.getPhysicalBookCopy().getCopyId();
         note =  "";
         borrowingDate = borrowing.getStartDate().toString();
-        returnDate = borrowing.getReturnDate().toString();
+        returnDate = borrowing.getReturnDate();
     }
 
     //getters and setter
@@ -81,11 +83,11 @@ public class BorrowingInfoDTO {
         this.borrowingDate = borrowingDate;
     }
 
-    public String getReturnDate() {
+    public Date getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(String returnDate) {
+    public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
 }
