@@ -1,12 +1,11 @@
 package WTproject.boekenWT.controllers;
 
 import WTproject.boekenWT.models.*;
-import WTproject.boekenWT.repositories.AuthorRepository;
-import WTproject.boekenWT.repositories.BookRepository;
+import WTproject.boekenWT.models.DTO.BookDTO;
+import WTproject.boekenWT.models.DTO.CatalogDTO;
 import WTproject.boekenWT.services.BookService;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

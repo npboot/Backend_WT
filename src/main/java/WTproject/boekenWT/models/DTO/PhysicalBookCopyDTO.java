@@ -1,4 +1,8 @@
-package WTproject.boekenWT.models;
+package WTproject.boekenWT.models.DTO;
+
+import WTproject.boekenWT.models.Availability;
+import WTproject.boekenWT.models.PhysicalBookCopy;
+import WTproject.boekenWT.models.PhysicalCondition;
 
 import java.util.Date;
 

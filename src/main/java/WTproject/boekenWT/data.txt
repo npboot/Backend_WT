@@ -6,6 +6,7 @@ PhysicalCondition
 Availability:
 "1": beschikbaar,
 "2": uitgeleend,
+"3": besteld?
 
 RequestStatus
 "1": pending,

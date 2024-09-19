@@ -1,4 +1,6 @@
-package WTproject.boekenWT.models;
+package WTproject.boekenWT.models.DTO;
+
+import WTproject.boekenWT.models.PhysicalBook;
 
 public class PhysicalBookDTO {
     PhysicalBook physicalBook;
