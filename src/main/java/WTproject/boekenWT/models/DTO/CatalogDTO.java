@@ -1,4 +1,7 @@
-package WTproject.boekenWT.models;
+package WTproject.boekenWT.models.DTO;
+
+import WTproject.boekenWT.models.Author;
+import WTproject.boekenWT.models.Book;
 
 public class CatalogDTO {
     private String title;

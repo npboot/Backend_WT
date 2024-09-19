@@ -6,7 +6,7 @@
 // import org.springframework.web.bind.annotation.RestController;
 
 // import WTproject.boekenWT.logic.BookCRUD.BookService;
-// import WTproject.boekenWT.models.BookDTO;
+// import WTproject.boekenWT.models.DTO.BookDTO;
 // // import WTproject.boekenWT.models.TemplateClasses.CreateBookTemplate;
 
 // @RestController

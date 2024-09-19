@@ -1,8 +1,6 @@
 package WTproject.boekenWT.controllers;
 
-import WTproject.boekenWT.models.Borrowing;
-import WTproject.boekenWT.models.BorrowingInfoDTO;
-import WTproject.boekenWT.services.BookService;
+import WTproject.boekenWT.models.DTO.BorrowingInfoDTO;
 import WTproject.boekenWT.services.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

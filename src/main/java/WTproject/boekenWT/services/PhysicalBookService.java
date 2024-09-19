@@ -1,8 +1,7 @@
 package WTproject.boekenWT.services;
 
-import WTproject.boekenWT.models.Book;
 import WTproject.boekenWT.models.PhysicalBook;
-import WTproject.boekenWT.models.PhysicalBookDTO;
+import WTproject.boekenWT.models.DTO.PhysicalBookDTO;
 import WTproject.boekenWT.repositories.PhysicalBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

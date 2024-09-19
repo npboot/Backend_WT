@@ -7,22 +7,28 @@
     "summary": "Beste samenvatting die je ooit zult zien"
     },
     "author": [{
-        "name": "Joe"
-    },
-    {
-        "name": "Hoe"
-    },
-    {
-        "name": "Loe"
+            "authorId": 1,
+            "name": "Joe"
+        },
+        {
+            "authorId": 2,
+            "name": "Hoe"
+        },
+        {
+            "authorId": 3,
+            "name": "Moe"
     }],
     "year": 2014,
     "categories": [{
+        "categoryId": 1,
         "category": "PROGRAMMING"
     }, 
     {
+        "categoryId": 2,
         "category": "C#"
     },
     {
+        "categoryId": 3,
         "category": "BEGINNER" 
     }]
  
@@ -38,22 +44,28 @@
     "summary": "Tweede beste samenvatting die je ooit zult zien"
     },
     "author": [{
+        "authorId": 1,
         "name": "Joe"
     },
     {
+        "authorId": 2,
         "name": "Hoe"
     },
     {
+        "authorId": 3,
         "name": "Moe"
     }],
     "year": 2014,
     "categories": [{
+        "categoryId": 1,
         "category": "PROGRAMMING"
     }, 
     {
+        "categoryId": 4,
         "category": "PYTHON"
     },
     {
+        "categoryId": 5,
         "category": "ADVANCED" 
     }]
  
