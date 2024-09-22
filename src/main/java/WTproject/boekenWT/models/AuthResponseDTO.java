@@ -2,7 +2,7 @@ package WTproject.boekenWT.models;
 
 public class AuthResponseDTO {
     private String accessToken;
-    private String tokenType;
+    private String tokenType = "Bearer ";
 
     public AuthResponseDTO(String accessToken){
         this.accessToken = accessToken;

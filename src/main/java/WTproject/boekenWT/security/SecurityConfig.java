@@ -9,15 +9,9 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,10 +22,10 @@ import static org.springframework.http.HttpMethod.GET;
 public class SecurityConfig {
 
     @Autowired
-    private JwtAuthEntryPoint jwtAuthEntryPoint;
+    private JwtAuthEntryPoint jwtAuthEntryPoint; // handels exeptions
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService; // load user info from database
 
     @Autowired
     public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthEntryPoint jwtAuthEntryPoint) {
@@ -53,16 +47,19 @@ public class SecurityConfig {
 //                .anyRequest().authenticated()
 //                .and()
 //                .httpBasic(Customizer.withDefaults());//  .httpBasic();
-                .csrf(csrf -> csrf.disable()) // Disable CSRF
+
+
+                .csrf(csrf -> csrf.disable()) // Disable CSRf, this is used for session based authentication, we use tokens
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(jwtAuthEntryPoint) // Handle unauthorized access
+                        .authenticationEntryPoint(jwtAuthEntryPoint) // exeption for unauthorized access
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session, because we use tokens
                 )
+
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/auth/**").permitAll() // Public access for authentication API
-                        .anyRequest().authenticated() // Secure all other requests
+                        .anyRequest().permitAll()//.authenticated() // Secure all other requests
                 )
                 .httpBasic(Customizer.withDefaults()); // Use HTTP Basic authentication
 

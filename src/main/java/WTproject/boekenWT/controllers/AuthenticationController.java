@@ -46,6 +46,7 @@ public class AuthenticationController {
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto){
+        System.out.println("got here");
         if(userRepository.existsByName(registerDto.getName())){
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
@@ -61,8 +62,9 @@ public class AuthenticationController {
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
+        System.out.println("got here");
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getName(),
                                                                                                                    loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
