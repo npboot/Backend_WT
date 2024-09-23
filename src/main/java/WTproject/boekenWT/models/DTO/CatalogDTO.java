@@ -3,6 +3,8 @@ package WTproject.boekenWT.models.DTO;
 import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Book;
 
+import java.util.StringJoiner;
+
 public class CatalogDTO {
     private String title;
     private String author;
@@ -13,10 +15,11 @@ public class CatalogDTO {
 
     public CatalogDTO(Book book) {
         title = book.getTitle();
-        author = "";
+        StringJoiner authorString = new StringJoiner(", ");
         for(Author a:book.getAuthors()) {
-            author+= a.getName()+", ";
+            authorString.add(a.getName());
         };
+        author = authorString.toString();
         year = book.getYear().getValue();
         total = 5;
         available = 3;
