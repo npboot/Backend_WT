@@ -9,6 +9,7 @@ import java.util.Set;
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BookDTO;
 import WTproject.boekenWT.models.DTO.CatalogDTO;
+import WTproject.boekenWT.models.DTO.PhysicalBookCopyDTO;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ public class BookService {
     PhysicalBookRepository physicalBookRepository;
     @Autowired
     PhysicalBookCopyRepository physicalBookCopyRepository;
+    @Autowired
+    AvailabilityRepository availabilityRepository;
     @Autowired
     PhysicalConditionRepository physicalConditionRepository;
 
@@ -75,16 +78,21 @@ public class BookService {
         return "Book added, "+ add;
     }
 
+    // ADD
     public String addPhysicalBook(Book book, int amount) {
 
         PhysicalBook newPhysicalBook = new PhysicalBook();
 
             try {
+                // Check if there already exists a physical book with the given isbn
                 if(physicalBookRepository.existsPhysicalBookByIsbn(book.getIsbn()) == 1) {
                     newPhysicalBook = physicalBookRepository.findPhysicalBookByIsbn(book.getIsbn());
+
+                    // The given amount should be added to the stock, the other attributes can stay the same
                     newPhysicalBook.setStock(newPhysicalBook.getStock() + amount);
-                    return "Physical book already exists";
+                    System.out.println("Physical book already exists. The amount is added to the stock of the already existing physical book.");
                 } else {
+                    // Set the given values to the corresponding attributes
                     newPhysicalBook.setBook(book);
                     newPhysicalBook.setArchived(false);
                     newPhysicalBook.setStock(amount);
@@ -96,6 +104,34 @@ public class BookService {
             }
 
         return "Physical book created!";
+    }
+
+    // ADD
+    public String addPhysicalBookCopies(PhysicalBook physicalBook, int amount) {
+
+        return "The given copies are created!";
+    }
+
+    // ADD
+    public String addPhysicalBookCopy(PhysicalBookCopyDTO copyTemplate) {
+        PhysicalBookCopy copy = new PhysicalBookCopy();
+
+        try {
+            copy.setPhysicalBook(copyTemplate.getPhysicalBookCopy().getPhysicalBook());
+            if(availabilityRepository.existsById(copyTemplate.getAvailability().getAvailabilityId())) {
+                copy.setAvailability(copyTemplate.getAvailability());
+            }
+                // If no valid availability is given, set default availability
+//            else {
+//                copy.setAvailability();
+//            }
+            copy.setPhysicalCondition(copy.getPhysicalCondition());
+            copy.setPurchaseDate(copyTemplate.getPurchaseDate());
+        } catch (Exception e) {
+            return "ErrorBS: " + e;
+        }
+
+        return "A copy is created!";
     }
 
     //GET
