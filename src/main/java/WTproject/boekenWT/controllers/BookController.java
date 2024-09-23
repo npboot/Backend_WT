@@ -1,10 +1,8 @@
 package WTproject.boekenWT.controllers;
 
-import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.BookDTO;
-import WTproject.boekenWT.models.CatalogDTO;
-import WTproject.boekenWT.repositories.AuthorRepository;
-import WTproject.boekenWT.repositories.BookRepository;
+import WTproject.boekenWT.models.*;
+import WTproject.boekenWT.models.DTO.BookDTO;
+import WTproject.boekenWT.models.DTO.CatalogDTO;
 import WTproject.boekenWT.services.BookService;
 
 import java.util.List;
@@ -47,10 +45,10 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping("/getBook")
-    public String getBook(@RequestParam int isbn) {
+    @GetMapping("/getBookInfo")
+    public List<PhysicalBookCopy> getBookInfo(@RequestParam int isbn) {
 
-        return bookService.getBook(isbn);
+        return bookService.getBookInfo(isbn);
     }
 
 //    @PutMapping("/updateBook")
@@ -71,5 +69,5 @@ public class BookController {
     public List<CatalogDTO> getCatalogData(){
 
         return bookService.getAllCatalogData();
-    };
+    }
 }

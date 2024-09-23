@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.Set;
 
 import WTproject.boekenWT.models.*;
-import WTproject.boekenWT.repositories.CategoryRepository;
+import WTproject.boekenWT.models.DTO.BookDTO;
+import WTproject.boekenWT.models.DTO.CatalogDTO;
+import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import WTproject.boekenWT.repositories.AuthorRepository;
-import WTproject.boekenWT.repositories.BookRepository;
 
 @Component
 public class BookService {
@@ -23,6 +22,12 @@ public class BookService {
     AuthorRepository authorRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    PhysicalBookRepository physicalBookRepository;
+    @Autowired
+    PhysicalBookCopyRepository physicalBookCopyRepository;
+    @Autowired
+    PhysicalConditionRepository physicalConditionRepository;
 
     //ADD
     public String addBook(BookDTO bookTemplate) {
@@ -37,6 +42,8 @@ public class BookService {
 
         Set<Author> authors = addAuthorsForBook(newAuthors);
         Set<Category> categories = addCategoriesForBook(newCategories);
+
+        String add;
 
 
         // Check if the book already exists
@@ -59,22 +66,46 @@ public class BookService {
                 book.setSummary(newBook.getSummary());
 
                 bookRepository.save(book);
+                add = addPhysicalBook(book, bookTemplate.getAmount());
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
         }
 
-        return "Book added";
+        return "Book added, "+ add;
+    }
+
+    public String addPhysicalBook(Book book, int amount) {
+
+        PhysicalBook newPhysicalBook = new PhysicalBook();
+
+            try {
+                if(physicalBookRepository.existsPhysicalBookByIsbn(book.getIsbn()) == 1) {
+                    newPhysicalBook = physicalBookRepository.findPhysicalBookByIsbn(book.getIsbn());
+                    newPhysicalBook.setStock(newPhysicalBook.getStock() + amount);
+                    return "Physical book already exists";
+                } else {
+                    newPhysicalBook.setBook(book);
+                    newPhysicalBook.setArchived(false);
+                    newPhysicalBook.setStock(amount);
+                }
+
+                physicalBookRepository.save(newPhysicalBook);
+            } catch (Exception e) {
+                return "ErrorBS: " + e;
+            }
+
+        return "Physical book created!";
     }
 
     //GET
-    public String getBook(int isbn) {
+    public List<PhysicalBookCopy> getBookInfo(int isbn) {
+        List<PhysicalBookCopy> physicalBookCopies = new ArrayList<>();
         if(bookRepository.existsById(isbn)) {
-            Book book = bookRepository.findById(isbn).get();
-            return "Book found, " + book.getTitle() + ", with isbn: " +  isbn; //Nog even nadenken over wat we hier daadwerkelijk willen returnen.
+            return physicalBookCopyRepository.findCopiesByIsbn(isbn);
         }
         else {
-            return "Book not found";
+            return physicalBookCopies;
         }
     }
 

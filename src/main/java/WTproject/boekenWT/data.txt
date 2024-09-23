@@ -1,0 +1,26 @@
+PhysicalCondition
+"1": new,
+"2": used,
+"3": damaged
+
+Availability:
+"1": beschikbaar,
+"2": uitgeleend,
+"3": besteld?
+
+RequestStatus
+"1": pending,
+"2": accepted,
+"3": denied
+
+BorrowingStatus
+"1": actief,
+"2": ingeleverd
+
+UserType
+"1": trainer,
+"2": trainee
+
+Request:
+(Post)
+http://localhost:8082/borrowing/addRequest?pBookId=1&userId=1

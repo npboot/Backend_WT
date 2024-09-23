@@ -1,6 +1,7 @@
 package WTproject.boekenWT.services;
 
 import WTproject.boekenWT.models.*;
+import WTproject.boekenWT.models.DTO.PhysicalBookCopyDTO;
 import WTproject.boekenWT.repositories.PhysicalBookCopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class PhysicalBookCopyService {
 
         Date purchaseDate = copyTemplate.getPurchaseDate();
         PhysicalCondition condition = copyTemplate.getCondition();
-        BorrowingStatus borrowingStatus = copyTemplate.getBorrowingStatus();
+        Availability availability = copyTemplate.getAvailability();
 
         if(physicalBookCopyRepository.existsById(newCopy.getCopyId())) {
             return  "Copy already exists";
@@ -30,7 +31,7 @@ public class PhysicalBookCopyService {
                 copy.setPhysicalBook(newCopy.getPhysicalBook());
                 copy.setPurchaseDate(purchaseDate);
                 copy.setPhysicalCondition(condition);
-                copy.setBorrowingStatus(borrowingStatus);
+                copy.setAvailability(availability);
 
                 physicalBookCopyRepository.save(copy);
             } catch (Exception e) {

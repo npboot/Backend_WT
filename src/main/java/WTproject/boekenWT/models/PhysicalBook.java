@@ -9,7 +9,8 @@ public class PhysicalBook {
     //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookId;
+    @Column(name = "book_id")
+    private int pBookId;
 
     @OneToOne
     @JoinColumn(name = "isbn")
@@ -21,10 +22,20 @@ public class PhysicalBook {
     @Column
     private boolean archived;
 
-    @OneToMany(mappedBy = "physicalBook")
-    private Set<PhysicalBookCopy> physicalBookCopies;
+//    @OneToMany(mappedBy = "physicalBook")
+//    private Set<PhysicalBookCopy> physicalBookCopies;
 
     //getters and setters
+
+
+    public int getPBookId() {
+        return pBookId;
+    }
+
+    public void setPBookId(int pBookId) {
+        this.pBookId = pBookId;
+    }
+
     public Book getBook() {
         return this.book;
     }

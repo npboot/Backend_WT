@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="USERTYPE")
 public class UserType {
+
     //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,6 +14,7 @@ public class UserType {
     @Column
     private String userTypeName;
 
+    //getters and setters
     public int getUserTypeId() {
         return userTypeId;
     }
@@ -28,7 +30,4 @@ public class UserType {
     public void setUserTypeName(String userTypeName) {
         this.userTypeName = userTypeName;
     }
-
-
-
 }

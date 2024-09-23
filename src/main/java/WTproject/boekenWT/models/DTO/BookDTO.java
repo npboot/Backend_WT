@@ -1,4 +1,9 @@
-package WTproject.boekenWT.models;
+package WTproject.boekenWT.models.DTO;
+
+import WTproject.boekenWT.models.Author;
+import WTproject.boekenWT.models.Book;
+import WTproject.boekenWT.models.Category;
+import WTproject.boekenWT.models.PhysicalBook;
 
 import java.time.Year;
 import java.util.HashSet;
@@ -9,6 +14,7 @@ public class BookDTO {
     Set<Author> authors = new HashSet<Author>();
     Set<Category> categories = new HashSet<Category>();
     Year year;
+    int amount;
 
     public Book getBook() {
         return book;
@@ -25,5 +31,7 @@ public class BookDTO {
         return year;
     }
 
-    
+    public int getAmount() {
+        return amount;
+    }
 }
