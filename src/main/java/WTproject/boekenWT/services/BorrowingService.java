@@ -115,7 +115,7 @@ public class BorrowingService {
         List<BorrowingInfoDTO> borrowingsDTO = new ArrayList<>();
 
         if(userRepository.existsById(pBookId)){
-            for(Borrowing borrowing:borrowingRepository.findBorrowingsByUserId(pBookId)) {
+            for(Borrowing borrowing:borrowingRepository.findBorrowingsByPBookId(pBookId)) {
                 BorrowingInfoDTO borrowingDTO = new BorrowingInfoDTO(borrowing);
                 borrowingsDTO.add(borrowingDTO);
             }
