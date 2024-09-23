@@ -2,6 +2,7 @@ package WTproject.boekenWT.services;
 
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BorrowingInfoDTO;
+import WTproject.boekenWT.models.DTO.RequestInfoDTO;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,20 @@ public class BorrowingService {
                 newRequest.setRequestStatus(requestStatusRepository.findById(1).get());
 
                 requestRepository.save(newRequest);
+
+                //get a physical bookcopy that is available
+                List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType(pBookId, 1);
+
+                // Check whether a copy with the given pBookId is available,
+                // if there is one available, convert the request immediately into a borrowing
+                if(!availableCopies.isEmpty()) {
+                    System.out.println("There are available copies for this book! The request will convert into a borrowing.");
+//                    System.out.println("This request has id: " + newRequest.getRequestId());
+                    addBorrowing(newRequest.getRequestId());
+                } else {
+                    System.out.println("Er zijn geen copies beschikbaar. The request will only convert into a borrowing when there is a copy of this book available again.");
+                }
+
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
@@ -53,6 +68,7 @@ public class BorrowingService {
 
         return "New request made!";
     }
+
 
     //create new Borrowing from a Request with the requestId
     public String addBorrowing(int requestId) {
@@ -109,6 +125,21 @@ public class BorrowingService {
         }
     }
 
+    //read Requests of a User with the userId
+    public List<RequestInfoDTO> getRequests(int userId) {
+        List<RequestInfoDTO> requestsDTO = new ArrayList<>();
+
+        if(userRepository.existsById(userId)){
+            for(Request request:requestRepository.findRequestsByUserId(userId)) {
+                RequestInfoDTO requestDTO = new RequestInfoDTO(request);
+                requestsDTO.add(requestDTO);
+            }
+            return requestsDTO;
+        } else {
+            return requestsDTO;
+        }
+    }
+
     //update RequestStatus of a Request with the requestId
     public String updateRequestStatus(int requestId) {
         Request oldRequest = new Request();
@@ -157,6 +188,18 @@ public class BorrowingService {
         return bInfo;
     }
 
+    //read Request with the requestId
+    public RequestInfoDTO getRequestInfo(int requestId){
+        RequestInfoDTO rInfo = null;
+        Request request =  new Request();
+
+        if(requestRepository.existsById(requestId)) {
+            request = requestRepository.findById(requestId).get();
+            rInfo = new RequestInfoDTO(request);
+        }
+        return rInfo;
+    }
+
     //update Borrowing and PBookCopy with the borrowingId
     public String returnBorrowing(int borrowingId) {
 
@@ -164,17 +207,41 @@ public class BorrowingService {
         if(borrowingRepository.existsById(borrowingId)) {
             try {
                 Borrowing oldBorrowing = borrowingRepository.findById(borrowingId).get();
-                oldBorrowing.setReturnDate(new Date());
-                oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
+                if(oldBorrowing.getBorrowingStatus().getBorrowingStatusId() == 1) {
+                    oldBorrowing.setReturnDate(new Date());
+                    oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
 
-                borrowingRepository.save(oldBorrowing);
+                    borrowingRepository.save(oldBorrowing);
 
-                updateAvailability(oldBorrowing.getPhysicalBookCopy().getCopyId(), 1);
+                    updateAvailability(oldBorrowing.getPhysicalBookCopy().getCopyId(), 1);
+
+                    updateRequestFromWaitingList(oldBorrowing.getPhysicalBookCopy().getPhysicalBook().getPBookId());
+                }
+                else {
+                    return "Deze borrowing is al ingeleverd!";
+                }
+
 
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
         }
+        else {
+            return "Deze borrowing bestaat niet!";
+        }
         return "Boek is ingeleverd!";
     }
+
+    // Check of er nog een wachtlijst is voor het gegeven boek en zo ja, zet het oudste request om in een borrowing
+    public void updateRequestFromWaitingList(int pBookId) {
+        List<Request> pendingRequests = requestRepository.findRequestsByPBookIdAndPending(pBookId, 1);
+
+        if(!pendingRequests.isEmpty()) {
+            Request firstOnWaitingList = pendingRequests.getFirst();
+            addBorrowing(firstOnWaitingList.getRequestId());
+            System.out.println("De oudste request is gelijk omgezet naar een nieuwe borrowing!");
+        }
+
+    }
+
 }

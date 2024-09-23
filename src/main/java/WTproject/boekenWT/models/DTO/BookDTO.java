@@ -3,7 +3,6 @@ package WTproject.boekenWT.models.DTO;
 import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Book;
 import WTproject.boekenWT.models.Category;
-import WTproject.boekenWT.models.PhysicalBook;
 
 import java.time.Year;
 import java.util.HashSet;
