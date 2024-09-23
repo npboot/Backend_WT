@@ -62,11 +62,11 @@ public class AuthenticationController {
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
-        System.out.println("got here");
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getName(),
                                                                                                                    loginDTO.getPassword()));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
