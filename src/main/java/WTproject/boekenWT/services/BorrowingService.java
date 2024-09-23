@@ -2,6 +2,7 @@ package WTproject.boekenWT.services;
 
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BorrowingInfoDTO;
+import WTproject.boekenWT.models.DTO.RequestInfoDTO;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -109,6 +110,21 @@ public class BorrowingService {
         }
     }
 
+    //read Requests of a User with the userId
+    public List<RequestInfoDTO> getRequests(int userId) {
+        List<RequestInfoDTO> requestsDTO = new ArrayList<>();
+
+        if(userRepository.existsById(userId)){
+            for(Request request:requestRepository.findRequestsByUserId(userId)) {
+                RequestInfoDTO requestDTO = new RequestInfoDTO(request);
+                requestsDTO.add(requestDTO);
+            }
+            return requestsDTO;
+        } else {
+            return requestsDTO;
+        }
+    }
+
     //update RequestStatus of a Request with the requestId
     public String updateRequestStatus(int requestId) {
         Request oldRequest = new Request();
@@ -155,6 +171,18 @@ public class BorrowingService {
             bInfo = new BorrowingInfoDTO(borrowing);
         }
         return bInfo;
+    }
+
+    //read Request with the requestId
+    public RequestInfoDTO getRequestInfo(int requestId){
+        RequestInfoDTO rInfo = null;
+        Request request =  new Request();
+
+        if(requestRepository.existsById(requestId)) {
+            request = requestRepository.findById(requestId).get();
+            rInfo = new RequestInfoDTO(request);
+        }
+        return rInfo;
     }
 
     //update Borrowing and PBookCopy with the borrowingId
