@@ -207,18 +207,45 @@ public class BorrowingService {
         if(borrowingRepository.existsById(borrowingId)) {
             try {
                 Borrowing oldBorrowing = borrowingRepository.findById(borrowingId).get();
-                oldBorrowing.setReturnDate(new Date());
-                oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
+                if(oldBorrowing.getBorrowingStatus().getBorrowingStatusId() == 1) {
+                    oldBorrowing.setReturnDate(new Date());
+                    oldBorrowing.setBorrowingStatus(borrowingStatusRepository.findById(2).get());
 
-                borrowingRepository.save(oldBorrowing);
+                    borrowingRepository.save(oldBorrowing);
 
-                updateAvailability(oldBorrowing.getPhysicalBookCopy().getCopyId(), 1);
+                    updateAvailability(oldBorrowing.getPhysicalBookCopy().getCopyId(), 1);
+
+                    updateRequestFromWaitingList(oldBorrowing.getPhysicalBookCopy().getPhysicalBook().getPBookId());
+                }
+                else {
+                    return "Deze borrowing is al ingeleverd!";
+                }
+
 
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
         }
+        else {
+            return "Deze borrowing bestaat niet!";
+        }
         return "Boek is ingeleverd!";
+    }
+
+    public void updateRequestFromWaitingList(int pBookId) {
+        System.out.println("Boek is ingeleverd. Er wordt nu gekeken of er nog iemand op de wachtlijst staat");
+        List<Request> pendingRequests = requestRepository.findRequestsByPBookIdAndPending(pBookId, 1);
+        System.out.println("Er staan nog " + pendingRequests.size() + " requests open voor dit boek");
+        for (Request request: pendingRequests) {
+            System.out.println(request.getRequestDate());
+        }
+
+        if(!pendingRequests.isEmpty()) {
+            Request firstOnWaitingList = pendingRequests.getFirst();
+            addBorrowing(firstOnWaitingList.getRequestId());
+            System.out.println("De oudste request is gelijk omgezet naar een nieuwe borrowing!");
+        }
+
     }
 
 }
