@@ -232,13 +232,9 @@ public class BorrowingService {
         return "Boek is ingeleverd!";
     }
 
+    // Check of er nog een wachtlijst is voor het gegeven boek en zo ja, zet het oudste request om in een borrowing
     public void updateRequestFromWaitingList(int pBookId) {
-        System.out.println("Boek is ingeleverd. Er wordt nu gekeken of er nog iemand op de wachtlijst staat");
         List<Request> pendingRequests = requestRepository.findRequestsByPBookIdAndPending(pBookId, 1);
-        System.out.println("Er staan nog " + pendingRequests.size() + " requests open voor dit boek");
-        for (Request request: pendingRequests) {
-            System.out.println(request.getRequestDate());
-        }
 
         if(!pendingRequests.isEmpty()) {
             Request firstOnWaitingList = pendingRequests.getFirst();
