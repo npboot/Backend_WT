@@ -47,6 +47,20 @@ public class BorrowingService {
                 newRequest.setRequestStatus(requestStatusRepository.findById(1).get());
 
                 requestRepository.save(newRequest);
+
+                //get a physical bookcopy that is available
+                List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType(pBookId, 1);
+
+                // Check whether a copy with the given pBookId is available,
+                // if there is one available, convert the request immediately into a borrowing
+                if(!availableCopies.isEmpty()) {
+                    System.out.println("There are available copies for this book! The request will convert into a borrowing.");
+//                    System.out.println("This request has id: " + newRequest.getRequestId());
+                    addBorrowing(newRequest.getRequestId());
+                } else {
+                    System.out.println("Er zijn geen copies beschikbaar. The request will only convert into a borrowing when there is a copy of this book available again.");
+                }
+
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
@@ -54,6 +68,7 @@ public class BorrowingService {
 
         return "New request made!";
     }
+
 
     //create new Borrowing from a Request with the requestId
     public String addBorrowing(int requestId) {
@@ -205,4 +220,5 @@ public class BorrowingService {
         }
         return "Boek is ingeleverd!";
     }
+
 }
