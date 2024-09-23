@@ -6,6 +6,12 @@ import jakarta.persistence.*;
 @Table(name="USER")
 public class User {
 
+//    public User(String name, String password, UserType usertype) {
+//        this.name = name;
+//        this.password = password;
+//        this.userType = usertype;
+//    }
+
     //attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +32,11 @@ public class User {
     @Column
     private String phoneNumber;
 
-    @ManyToOne
+    // fech = Eager to always get the userType when loding the user
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userTypeId")
     private UserType userType;
 
-    //getters and setters
     public int getUserId() {
         return userId;
     }
@@ -86,4 +92,7 @@ public class User {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+
+
 }
