@@ -110,6 +110,21 @@ public class BorrowingService {
         }
     }
 
+    //read Borrowings of a Physical Book with the pBookId
+    public List<BorrowingInfoDTO> getBorrowingsPhysicalBook(int pBookId) {
+        List<BorrowingInfoDTO> borrowingsDTO = new ArrayList<>();
+
+        if(userRepository.existsById(pBookId)){
+            for(Borrowing borrowing:borrowingRepository.findBorrowingsByUserId(pBookId)) {
+                BorrowingInfoDTO borrowingDTO = new BorrowingInfoDTO(borrowing);
+                borrowingsDTO.add(borrowingDTO);
+            }
+            return borrowingsDTO;
+        } else {
+            return borrowingsDTO;
+        }
+    }
+
     //read Requests of a User with the userId
     public List<RequestInfoDTO> getRequests(int userId) {
         List<RequestInfoDTO> requestsDTO = new ArrayList<>();
