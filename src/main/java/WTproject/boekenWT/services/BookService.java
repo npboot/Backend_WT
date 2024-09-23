@@ -9,6 +9,7 @@ import java.util.Set;
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BookDTO;
 import WTproject.boekenWT.models.DTO.CatalogDTO;
+import WTproject.boekenWT.models.DTO.PhysicalBookCopiesDTO;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ public class BookService {
     PhysicalBookRepository physicalBookRepository;
     @Autowired
     PhysicalBookCopyRepository physicalBookCopyRepository;
+    @Autowired
+    AvailabilityRepository availabilityRepository;
     @Autowired
     PhysicalConditionRepository physicalConditionRepository;
 
@@ -66,7 +69,7 @@ public class BookService {
                 book.setSummary(newBook.getSummary());
 
                 bookRepository.save(book);
-                add = addPhysicalBook(book, bookTemplate.getAmount());
+                add = addPhysicalBook(bookTemplate, book, bookTemplate.getAmount());
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
@@ -75,7 +78,7 @@ public class BookService {
         return "Book added, "+ add;
     }
 
-    public String addPhysicalBook(Book book, int amount) {
+    public String addPhysicalBook(BookDTO bookTemplate, Book book, int amount) {
 
         PhysicalBook newPhysicalBook = new PhysicalBook();
 
@@ -91,11 +94,64 @@ public class BookService {
                 }
 
                 physicalBookRepository.save(newPhysicalBook);
+
+
+                PhysicalBookCopiesDTO copiesTemplate = new PhysicalBookCopiesDTO();
+                copiesTemplate.setPhysicalBook(newPhysicalBook);
+                copiesTemplate.setAvailability(bookTemplate.getAvailability());
+                copiesTemplate.setPhysicalCondition(bookTemplate.getPhysicalCondition());
+                copiesTemplate.setPurchaseDate(bookTemplate.getPurchaseDate());
+
+                String addedCopies = addPhysicalBookCopies(copiesTemplate, amount);
+                System.out.println(addedCopies);
+
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
 
         return "Physical book created!";
+    }
+
+    // ADD
+    public String addPhysicalBookCopies(PhysicalBookCopiesDTO copyTemplate, int amount) {
+        for(int i = 0; i < amount; i++) {
+            String addedCopy = addPhysicalBookCopy(copyTemplate, i);
+            System.out.println(addedCopy);
+        }
+
+        return "The given copies are created!";
+    }
+
+    // ADD
+    public String addPhysicalBookCopy(PhysicalBookCopiesDTO copyTemplate, int index) {
+        PhysicalBookCopy copy = new PhysicalBookCopy();
+
+        try {
+            copy.setPhysicalBook(copyTemplate.getPhysicalBook());
+            // Check whether the given availability is valid
+            if(availabilityRepository.existsById(copyTemplate.getAvailability().get(index).getAvailabilityId())) {
+                copy.setAvailability(copyTemplate.getAvailability().get(index));
+            }
+            else {
+                System.out.println("The given availability is invalid, so a default value is used");
+                copy.setAvailability(availabilityRepository.findById(1).get());
+            }
+            // Check whether the given physical condition is valid
+            if(physicalConditionRepository.existsById(copyTemplate.getPhysicalCondition().get(index).getPhysicalConditionId())) {
+                copy.setPhysicalCondition(copyTemplate.getPhysicalCondition().get(index));
+            }
+            else {
+                System.out.println("The given physical condition is invalid, so a default value is used");
+                copy.setPhysicalCondition(physicalConditionRepository.findById(1).get());
+            }
+            copy.setPurchaseDate(copyTemplate.getPurchaseDate().get(index));
+
+            physicalBookCopyRepository.save(copy);
+        } catch (Exception e) {
+            return "ErrorBS: " + e;
+        }
+
+        return "A copy is created!";
     }
 
     //GET

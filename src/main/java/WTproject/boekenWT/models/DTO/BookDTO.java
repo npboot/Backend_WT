@@ -1,12 +1,9 @@
 package WTproject.boekenWT.models.DTO;
 
-import WTproject.boekenWT.models.Author;
-import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.Category;
+import WTproject.boekenWT.models.*;
 
 import java.time.Year;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BookDTO {
     Book book;
@@ -14,6 +11,11 @@ public class BookDTO {
     Set<Category> categories = new HashSet<Category>();
     Year year;
     int amount;
+
+
+    List<Availability> availability = new ArrayList<>();
+    List<PhysicalCondition> physicalCondition = new ArrayList<>();
+    List<Date> purchaseDate = new ArrayList<>();
 
     public Book getBook() {
         return book;
@@ -32,5 +34,18 @@ public class BookDTO {
 
     public int getAmount() {
         return amount;
+    }
+
+
+    public List<Availability> getAvailability() {
+        return availability;
+    }
+
+    public List<PhysicalCondition> getPhysicalCondition() {
+        return physicalCondition;
+    }
+
+    public List<Date> getPurchaseDate() {
+        return purchaseDate;
     }
 }
