@@ -1,6 +1,7 @@
 package WTproject.boekenWT.controllers;
 
 import WTproject.boekenWT.models.DTO.BorrowingInfoDTO;
+import WTproject.boekenWT.models.DTO.RequestInfoDTO;
 import WTproject.boekenWT.services.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +26,16 @@ public class BorrowingController {
     @GetMapping("/getBorrowings")
     public List<BorrowingInfoDTO> getBorrowingsInfo(@RequestParam int userId){
         return borrowingService.getBorrowings(userId);
+    }
+
+    @GetMapping("/getRequestInfo")
+    public RequestInfoDTO getRequestInfo(@RequestParam int requestId) {
+        return borrowingService.getRequestInfo(requestId);
+    }
+
+    @GetMapping("/getRequests")
+    public List<RequestInfoDTO> getRequestsInfo(@RequestParam int userId){
+        return borrowingService.getRequests(userId);
     }
 
     @PostMapping("/addRequest")

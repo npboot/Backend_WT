@@ -14,6 +14,7 @@ public class BorrowingInfoDTO {
     private String note;
     private String borrowingDate;
     private Date returnDate;
+    private int borrowingId;
 
     public BorrowingInfoDTO(Borrowing borrowing) {
         isbn = borrowing.getPhysicalBookCopy().getPhysicalBook().getBook().getIsbn();
@@ -27,6 +28,7 @@ public class BorrowingInfoDTO {
         note =  "";
         borrowingDate = borrowing.getStartDate().toString();
         returnDate = borrowing.getReturnDate();
+        borrowingId = borrowing.getBorrowingId();
     }
 
     //getters and setter
@@ -93,4 +95,8 @@ public class BorrowingInfoDTO {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
+
+    public int getBorrowingId() { return borrowingId;}
+
+    public void setBorrowingId(int borrowingId) { this.borrowingId = borrowingId;}
 }
