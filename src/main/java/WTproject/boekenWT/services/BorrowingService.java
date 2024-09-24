@@ -119,10 +119,21 @@ public class BorrowingService {
                 BorrowingInfoDTO borrowingDTO = new BorrowingInfoDTO(borrowing);
                 borrowingsDTO.add(borrowingDTO);
             }
-            return borrowingsDTO;
-        } else {
-            return borrowingsDTO;
         }
+        return borrowingsDTO;
+    }
+
+    //read Borrowings of a Physical Book with the pBookId
+    public List<BorrowingInfoDTO> getBorrowingsPhysicalBook(int pBookId) {
+        List<BorrowingInfoDTO> borrowingsDTO = new ArrayList<>();
+
+        if(physicalBookRepository.existsById(pBookId)){
+            for(Borrowing borrowing:borrowingRepository.findBorrowingsByPBookId(pBookId)) {
+                BorrowingInfoDTO borrowingDTO = new BorrowingInfoDTO(borrowing);
+                borrowingsDTO.add(borrowingDTO);
+            }
+        }
+        return borrowingsDTO;
     }
 
     //read Requests of a User with the userId
@@ -134,10 +145,8 @@ public class BorrowingService {
                 RequestInfoDTO requestDTO = new RequestInfoDTO(request);
                 requestsDTO.add(requestDTO);
             }
-            return requestsDTO;
-        } else {
-            return requestsDTO;
         }
+        return requestsDTO;
     }
 
     //update RequestStatus of a Request with the requestId
