@@ -39,7 +39,7 @@ public class JWTGenerator {
 
         String token = Jwts.builder()
                 .setSubject(username)
-                .addClaims(claims) // Add claims here
+                .addClaims(claims) // Add claims here (this contains user role)
                 .setIssuedAt(new Date())
                 .signWith(key)
 
