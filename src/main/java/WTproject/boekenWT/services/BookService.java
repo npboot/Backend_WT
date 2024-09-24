@@ -167,10 +167,18 @@ public class BookService {
         List<CopyHistoryDTO> allHistoryDTO = new ArrayList<>();
 
         if(physicalBookCopyRepository.existsById(copyId)){
-            for(Borrowing borrowing:borrowingRepository.findBorrowingsByPBookId(copyId)) {
+            for(Borrowing borrowing:borrowingRepository.findBorrowingsByCopyId(copyId)) {
                 CopyHistoryDTO startHistoryDTO = new CopyHistoryDTO();
                 startHistoryDTO.setDate(borrowing.getStartDate());
+                startHistoryDTO.setAction("Uitgeleend aan " + borrowing.getRequest().getUser().getName());
                 allHistoryDTO.add(startHistoryDTO);
+
+                if(borrowing.getReturnDate() != null){
+                    CopyHistoryDTO returnHistoryDTO = new CopyHistoryDTO();
+                    returnHistoryDTO.setDate(borrowing.getStartDate());
+                    returnHistoryDTO.setAction("Ingeleverd door " + borrowing.getRequest().getUser().getName());
+                    allHistoryDTO.add(returnHistoryDTO);
+                }
             }
         }
         return allHistoryDTO;
