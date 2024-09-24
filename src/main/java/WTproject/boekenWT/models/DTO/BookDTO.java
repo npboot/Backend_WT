@@ -12,11 +12,6 @@ public class BookDTO {
     Year year;
     int amount;
 
-
-    List<Availability> availability = new ArrayList<>();
-    List<PhysicalCondition> physicalCondition = new ArrayList<>();
-    List<Date> purchaseDate = new ArrayList<>();
-
     public Book getBook() {
         return book;
     }
@@ -36,16 +31,4 @@ public class BookDTO {
         return amount;
     }
 
-
-    public List<Availability> getAvailability() {
-        return availability;
-    }
-
-    public List<PhysicalCondition> getPhysicalCondition() {
-        return physicalCondition;
-    }
-
-    public List<Date> getPurchaseDate() {
-        return purchaseDate;
-    }
 }

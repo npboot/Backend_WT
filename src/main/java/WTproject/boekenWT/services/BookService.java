@@ -1,15 +1,11 @@
 package WTproject.boekenWT.services;
 
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BookDTO;
 import WTproject.boekenWT.models.DTO.CatalogDTO;
-import WTproject.boekenWT.models.DTO.PhysicalBookCopiesDTO;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,7 +44,6 @@ public class BookService {
 
         String add;
 
-
         // Check if the book already exists
         if(bookRepository.existsById(newBook.getIsbn())) {
             return "Book already exists";
@@ -69,7 +64,7 @@ public class BookService {
                 book.setSummary(newBook.getSummary());
 
                 bookRepository.save(book);
-                add = addPhysicalBook(bookTemplate, book, bookTemplate.getAmount());
+                add = addPhysicalBook(book, bookTemplate.getAmount());
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
@@ -78,10 +73,10 @@ public class BookService {
         return "Book added, "+ add;
     }
 
-    public String addPhysicalBook(BookDTO bookTemplate, Book book, int amount) {
-
+    public String addPhysicalBook(Book book, int amount) {
+        System.out.println("The physical book should be added and " + amount + " copies with it");
         PhysicalBook newPhysicalBook = new PhysicalBook();
-
+        String addedCopies;
             try {
                 if(physicalBookRepository.existsPhysicalBookByIsbn(book.getIsbn()) == 1) {
                     newPhysicalBook = physicalBookRepository.findPhysicalBookByIsbn(book.getIsbn());
@@ -95,63 +90,55 @@ public class BookService {
 
                 physicalBookRepository.save(newPhysicalBook);
 
-
-                PhysicalBookCopiesDTO copiesTemplate = new PhysicalBookCopiesDTO();
-                copiesTemplate.setPhysicalBook(newPhysicalBook);
-                copiesTemplate.setAvailability(bookTemplate.getAvailability());
-                copiesTemplate.setPhysicalCondition(bookTemplate.getPhysicalCondition());
-                copiesTemplate.setPurchaseDate(bookTemplate.getPurchaseDate());
-
-                String addedCopies = addPhysicalBookCopies(copiesTemplate, amount);
+                addedCopies = addPhysicalBookCopies(newPhysicalBook, amount);
                 System.out.println(addedCopies);
 
             } catch (Exception e) {
                 return "ErrorBS: " + e;
             }
 
-        return "Physical book created!";
+        return "Physical book created! " + addedCopies;
     }
 
     // ADD
-    public String addPhysicalBookCopies(PhysicalBookCopiesDTO copyTemplate, int amount) {
+    public String addPhysicalBookCopies(PhysicalBook physicalBook, int amount) {
+        System.out.println(amount + " copies should be added");
+        String addedCopies = "";
         for(int i = 0; i < amount; i++) {
-            String addedCopy = addPhysicalBookCopy(copyTemplate, i);
+            String addedCopy = addPhysicalBookCopy(physicalBook);
+            addedCopies += addedCopy;
             System.out.println(addedCopy);
         }
 
-        return "The given copies are created!";
+        return addedCopies;
     }
 
     // ADD
-    public String addPhysicalBookCopy(PhysicalBookCopiesDTO copyTemplate, int index) {
+    public String addPhysicalBookCopy(PhysicalBook physicalBook) {
         PhysicalBookCopy copy = new PhysicalBookCopy();
 
         try {
-            copy.setPhysicalBook(copyTemplate.getPhysicalBook());
-            // Check whether the given availability is valid
-            if(availabilityRepository.existsById(copyTemplate.getAvailability().get(index).getAvailabilityId())) {
-                copy.setAvailability(copyTemplate.getAvailability().get(index));
+            copy.setPhysicalBook(physicalBook);
+
+            // A new copy gets default values for the availability, physical condition and purchase date
+            if(!availabilityRepository.existsById(1)) {
+                addAvailabilities();
             }
-            else {
-                System.out.println("The given availability is invalid, so a default value is used");
-                copy.setAvailability(availabilityRepository.findById(1).get());
+            copy.setAvailability(availabilityRepository.findById(1).get()); // Beschikbaar
+
+            if(!physicalConditionRepository.existsById(1)) {
+                addPhysicalConditions();
             }
-            // Check whether the given physical condition is valid
-            if(physicalConditionRepository.existsById(copyTemplate.getPhysicalCondition().get(index).getPhysicalConditionId())) {
-                copy.setPhysicalCondition(copyTemplate.getPhysicalCondition().get(index));
-            }
-            else {
-                System.out.println("The given physical condition is invalid, so a default value is used");
-                copy.setPhysicalCondition(physicalConditionRepository.findById(1).get());
-            }
-            copy.setPurchaseDate(copyTemplate.getPurchaseDate().get(index));
+            copy.setPhysicalCondition(physicalConditionRepository.findById(1).get()); // Nieuw
+
+            copy.setPurchaseDate(new Date()); // Huidige datum
 
             physicalBookCopyRepository.save(copy);
         } catch (Exception e) {
             return "ErrorBS: " + e;
         }
 
-        return "A copy is created!";
+        return "A copy is created!\n";
     }
 
     //GET
@@ -316,6 +303,26 @@ public class BookService {
             }
         }
         return categories;
+    }
+
+    public void addAvailabilities() {
+        Availability beschikbaarAvailability = new Availability();
+        beschikbaarAvailability.setAvailabilityType("beschikbaar");
+        availabilityRepository.save(beschikbaarAvailability);
+
+        Availability uitgeleendAvailability = new Availability();
+        beschikbaarAvailability.setAvailabilityType("uitgeleend");
+        availabilityRepository.save(uitgeleendAvailability);
+    }
+
+    public void addPhysicalConditions() {
+        PhysicalCondition nieuwCondition = new PhysicalCondition();
+        nieuwCondition.setConditionType("nieuw");
+        physicalConditionRepository.save(nieuwCondition);
+
+        PhysicalCondition beschadigdCondition = new PhysicalCondition();
+        beschadigdCondition.setConditionType("beschadigd");
+        physicalConditionRepository.save(beschadigdCondition);
     }
 
     public List<CatalogDTO> getAllCatalogData() {
