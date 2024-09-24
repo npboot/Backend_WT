@@ -36,6 +36,14 @@ public class BookService {
 
         Set<Author> newAuthors = bookTemplate.getAuthor();
         Set<Category> newCategories = bookTemplate.getCategories();
+        System.out.println("authors.size " + newAuthors.size());
+        for(Author author: newAuthors) {
+            System.out.println("author is  " + author.getName());
+        }
+        System.out.println("categories.size " + newCategories.size());
+        for(Category category: newCategories) {
+            System.out.println("category is  " + category.getCategory());
+        }
         Book newBook = bookTemplate.getBook();
 
 
@@ -53,9 +61,11 @@ public class BookService {
                 book.setIsbn(newBook.getIsbn());
                 book.setTitle(newBook.getTitle());
                 for(Author newAuthor: authors) {
+                    System.out.println("author " + newAuthor.getName());
                     book.addAuthor(newAuthor);
                 }
                 for(Category newCategory : categories) {
+                    System.out.println("category " + newCategory.getCategory());
                     book.addCategory(newCategory);
                 }
                 book.setYear(year);
@@ -74,7 +84,6 @@ public class BookService {
     }
 
     public String addPhysicalBook(Book book, int amount) {
-        System.out.println("The physical book should be added and " + amount + " copies with it");
         PhysicalBook newPhysicalBook = new PhysicalBook();
         String addedCopies;
             try {
@@ -91,7 +100,6 @@ public class BookService {
                 physicalBookRepository.save(newPhysicalBook);
 
                 addedCopies = addPhysicalBookCopies(newPhysicalBook, amount);
-                System.out.println(addedCopies);
 
             } catch (Exception e) {
                 return "ErrorBS: " + e;
@@ -102,12 +110,10 @@ public class BookService {
 
     // ADD
     public String addPhysicalBookCopies(PhysicalBook physicalBook, int amount) {
-        System.out.println(amount + " copies should be added");
         String addedCopies = "";
         for(int i = 0; i < amount; i++) {
             String addedCopy = addPhysicalBookCopy(physicalBook);
             addedCopies += addedCopy;
-            System.out.println(addedCopy);
         }
 
         return addedCopies;
@@ -178,6 +184,7 @@ public class BookService {
                     authors.add(author);
                 } else {
                     // Create and save the new author
+                    author.setAuthorId(newAuthor.getAuthorId());
                     author.setName(newAuthor.getName());
                     try {
                         author = authorRepository.save(author);
@@ -198,6 +205,7 @@ public class BookService {
                     categories.add(category);
                 } else {
                     // Create and save the new category
+                    category.setCategoryId(newCategory.getCategoryId());
                     category.setCategory(newCategory.getCategory());
                     try {
                         category = categoryRepository.save(category);
@@ -258,15 +266,18 @@ public class BookService {
         // Check if the author already exists
         for(Author newAuthor: newAuthors) {
             Author author = new Author();
+            System.out.println("Author to be added with ID: " + newAuthor.getAuthorId() + "  and name: " + newAuthor.getName());
             if (authorRepository.existsById(newAuthor.getAuthorId())) {
                 // Fetch the existing author from the database
                 author = authorRepository.findById(newAuthor.getAuthorId()).get();
                 authors.add(author);
             } else {
                 // Create and save the new author
+//                author.setAuthorId(newAuthor.getAuthorId());
                 author.setName(newAuthor.getName());
                 try {
                     author = authorRepository.save(author);
+                    System.out.println("Author that is added has ID: " + author.getAuthorId() + "  and name: " + author.getName());
                     authors.add(author);
 
                     // Save and get the managed entity
@@ -284,15 +295,18 @@ public class BookService {
         // Check if the category already exists
         for(Category newCategory: newCategories) {
             Category category = new Category();
+            System.out.println("Category to be added with ID: " + newCategory.getCategoryId() + "  and name: " + newCategory.getCategory());
             if (categoryRepository.existsById(newCategory.getCategoryId())) {
                 // Fetch the existing category from the database
                 category = categoryRepository.findById(newCategory.getCategoryId()).get();
                 categories.add(category);
             } else {
                 // Create and save the new category
+//                category.setCategoryId(newCategory.getCategoryId());
                 category.setCategory(newCategory.getCategory());
                 try {
                     category = categoryRepository.save(category);
+                    System.out.println("Category that is added has ID: " + category.getCategoryId() + "  and name: " + category.getCategory());
                     categories.add(category);
 
                     // Save and get the managed entity
@@ -306,23 +320,27 @@ public class BookService {
     }
 
     public void addAvailabilities() {
-        Availability beschikbaarAvailability = new Availability();
-        beschikbaarAvailability.setAvailabilityType("beschikbaar");
-        availabilityRepository.save(beschikbaarAvailability);
+        addAvailability("beschikbaar");
+        addAvailability("uitgeleend");
+        addAvailability("besteld");
+    }
 
-        Availability uitgeleendAvailability = new Availability();
-        beschikbaarAvailability.setAvailabilityType("uitgeleend");
-        availabilityRepository.save(uitgeleendAvailability);
+    public void addAvailability(String availabilityType) {
+        Availability availability = new Availability();
+        availability.setAvailabilityType(availabilityType);
+        availabilityRepository.save(availability);
     }
 
     public void addPhysicalConditions() {
-        PhysicalCondition nieuwCondition = new PhysicalCondition();
-        nieuwCondition.setConditionType("nieuw");
-        physicalConditionRepository.save(nieuwCondition);
+        addPhysicalCondition("nieuw");
+        addPhysicalCondition("beschadigd");
+        addPhysicalCondition("stuk");
+    }
 
-        PhysicalCondition beschadigdCondition = new PhysicalCondition();
-        beschadigdCondition.setConditionType("beschadigd");
-        physicalConditionRepository.save(beschadigdCondition);
+    public void addPhysicalCondition(String physicalConditionType) {
+        PhysicalCondition newCondition = new PhysicalCondition();
+        newCondition.setConditionType(physicalConditionType);
+        physicalConditionRepository.save(newCondition);
     }
 
     public List<CatalogDTO> getAllCatalogData() {
