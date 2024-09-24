@@ -4,6 +4,7 @@ import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Borrowing;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 public class BorrowingInfoDTO {
     private int isbn;
@@ -20,10 +21,11 @@ public class BorrowingInfoDTO {
         isbn = borrowing.getPhysicalBookCopy().getPhysicalBook().getBook().getIsbn();
         status = borrowing.getBorrowingStatus().getBorrowingStatusType();
         title = borrowing.getPhysicalBookCopy().getPhysicalBook().getBook().getTitle();
-        authorName = "";
+        StringJoiner authorString = new StringJoiner(", ");
         for(Author a:borrowing.getPhysicalBookCopy().getPhysicalBook().getBook().getAuthors()) {
-            authorName+= a.getName()+", ";
+            authorString.add(a.getName());
         };
+        authorName = authorString.toString();
         copyID = borrowing.getPhysicalBookCopy().getCopyId();
         note =  "";
         borrowingDate = borrowing.getStartDate().toString();

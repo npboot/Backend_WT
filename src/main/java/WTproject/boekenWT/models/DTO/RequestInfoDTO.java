@@ -4,6 +4,7 @@ import WTproject.boekenWT.models.Author;
 import WTproject.boekenWT.models.Request;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 public class RequestInfoDTO {
 
@@ -17,10 +18,11 @@ public class RequestInfoDTO {
         isbn = request.getPhysicalBook().getBook().getIsbn();
         status = request.getRequestStatus().getRequestStatusType();
         title = request.getPhysicalBook().getBook().getTitle();
-        authorName = "";
+        StringJoiner authorString = new StringJoiner(", ");
         for(Author a:request.getPhysicalBook().getBook().getAuthors()) {
-            authorName+= a.getName()+", ";
+            authorString.add(a.getName());
         };
+        authorName = authorString.toString();
         requestDate = request.getRequestDate();
     }
 

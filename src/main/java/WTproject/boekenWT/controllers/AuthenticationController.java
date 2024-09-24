@@ -3,6 +3,7 @@ package WTproject.boekenWT.controllers;
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.repositories.UserRepository;
 import WTproject.boekenWT.repositories.UserTypeRepository;
+import WTproject.boekenWT.security.CustomUserDetailsService;
 import WTproject.boekenWT.security.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,15 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,31 +26,34 @@ public class AuthenticationController {
     private UserTypeRepository usertypeRepository;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepository,
                                     UserTypeRepository typeRepository,
                                     PasswordEncoder passwordEncoder,
                                     UserTypeRepository userTypeRepository,
-                                    JWTGenerator jwtGenerator) {
+                                    JWTGenerator jwtGenerator,
+                                    CustomUserDetailsService customUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userTypeRepository = userTypeRepository;
         this.jwtGenerator = jwtGenerator;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto){
         System.out.println("got here");
-        if(userRepository.existsByName(registerDto.getName())){
+        if(userRepository.existsByEmail(registerDto.getEmail())){
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
         User user = new User();
-        user.setName(registerDto.getName());
+        user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        UserType userType = userTypeRepository.findByUserTypeName("Trainer").orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
+        UserType userType = userTypeRepository.findByUserTypeName("Trainee").orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
         user.setUserType(userType);
 
         userRepository.save(user);
@@ -63,9 +62,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("login")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getName(),
-                                                                                                                   loginDTO.getPassword()));
+
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDTO.getEmail());
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
+                                                                                                                   loginDTO.getPassword(),
+                                                                                                                   userDetails.getAuthorities()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
