@@ -3,6 +3,7 @@ package WTproject.boekenWT.controllers;
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.repositories.UserRepository;
 import WTproject.boekenWT.repositories.UserTypeRepository;
+import WTproject.boekenWT.security.CustomUserDetailsService;
 import WTproject.boekenWT.security.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,18 +32,21 @@ public class AuthenticationController {
     private UserTypeRepository usertypeRepository;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepository,
                                     UserTypeRepository typeRepository,
                                     PasswordEncoder passwordEncoder,
                                     UserTypeRepository userTypeRepository,
-                                    JWTGenerator jwtGenerator) {
+                                    JWTGenerator jwtGenerator,
+                                    CustomUserDetailsService customUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userTypeRepository = userTypeRepository;
         this.jwtGenerator = jwtGenerator;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @PostMapping("register")
@@ -54,7 +59,7 @@ public class AuthenticationController {
         user.setName(registerDto.getName());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        UserType userType = userTypeRepository.findByUserTypeName("Trainer").orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
+        UserType userType = userTypeRepository.findByUserTypeName("Trainee").orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
         user.setUserType(userType);
 
         userRepository.save(user);
@@ -64,8 +69,10 @@ public class AuthenticationController {
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDTO.getName());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getName(),
-                                                                                                                   loginDTO.getPassword()));
+                                                                                                                   loginDTO.getPassword(),
+                                                                                                                   userDetails.getAuthorities()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
