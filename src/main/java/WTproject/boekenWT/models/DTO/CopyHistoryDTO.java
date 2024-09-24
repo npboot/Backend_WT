@@ -1,14 +1,16 @@
 package WTproject.boekenWT.models.DTO;
 
+import java.util.Date;
+
 public class CopyHistoryDTO {
-    private String date;
+    private Date date;
     private String action;
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
