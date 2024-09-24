@@ -322,7 +322,6 @@ public class BookService {
     public void addAvailabilities() {
         addAvailability("beschikbaar");
         addAvailability("uitgeleend");
-        addAvailability("besteld");
     }
 
     public void addAvailability(String availabilityType) {
@@ -334,7 +333,6 @@ public class BookService {
     public void addPhysicalConditions() {
         addPhysicalCondition("nieuw");
         addPhysicalCondition("beschadigd");
-        addPhysicalCondition("stuk");
     }
 
     public void addPhysicalCondition(String physicalConditionType) {
