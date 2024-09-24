@@ -267,7 +267,10 @@ public class BookService {
 
         List<CatalogDTO> listCatalog=new ArrayList();
         for (Book b:books) {
-            CatalogDTO cd = new CatalogDTO(b);
+            PhysicalBook physicalBook = physicalBookRepository.findPhysicalBookByIsbn(b.getIsbn());
+            List<PhysicalBookCopy> availableCopies = physicalBookCopyRepository.findCopiesByAvailabilityType(physicalBook.getPBookId(), 1);
+            int available = availableCopies.size();
+            CatalogDTO cd = new CatalogDTO(physicalBook, available);
             listCatalog.add(cd);
         }
         return listCatalog;
