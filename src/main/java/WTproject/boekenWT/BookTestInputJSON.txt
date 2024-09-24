@@ -1,6 +1,6 @@
 {
     "book": {
-    "title": "check",
+    "title": "hele gave titel",
     "isbn": 444444,
     "isOnline": true,
     "isPhysical": true,
@@ -16,7 +16,7 @@
         },
         {
             "authorId": 3,
-            "name": "Moe"
+            "name": "Loe"
     }],
     "year": 2014,
     "categories": [{
@@ -30,14 +30,13 @@
     {
         "categoryId": 3,
         "category": "BEGINNER" 
-    }]
- 
-
+    }],
+    "amount": 5
 }
 
 {
     "book": {
-    "title": "check",
+    "title": "ziek vette titel",
     "isbn": 444445,
     "isOnline": false,
     "isPhysical": true,
@@ -52,7 +51,7 @@
         "name": "Hoe"
     },
     {
-        "authorId": 3,
+        "authorId": 4,
         "name": "Moe"
     }],
     "year": 2014,
@@ -67,6 +66,6 @@
     {
         "categoryId": 5,
         "category": "ADVANCED" 
-    }]
- 
+    }],
+    "amount": 3
 }

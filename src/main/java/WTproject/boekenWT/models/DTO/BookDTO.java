@@ -1,12 +1,9 @@
 package WTproject.boekenWT.models.DTO;
 
-import WTproject.boekenWT.models.Author;
-import WTproject.boekenWT.models.Book;
-import WTproject.boekenWT.models.Category;
+import WTproject.boekenWT.models.*;
 
 import java.time.Year;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BookDTO {
     Book book;
@@ -33,4 +30,5 @@ public class BookDTO {
     public int getAmount() {
         return amount;
     }
+
 }
