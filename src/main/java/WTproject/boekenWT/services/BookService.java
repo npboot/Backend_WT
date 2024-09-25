@@ -94,7 +94,7 @@ public class BookService {
                 if(physicalBookRepository.existsPhysicalBookByIsbn(book.getIsbn()) == 1) {
                     newPhysicalBook = physicalBookRepository.findPhysicalBookByIsbn(book.getIsbn());
                     newPhysicalBook.setStock(newPhysicalBook.getStock() + amount);
-                    return "Physical book already exists";
+                    System.out.println("Physical book already exists. The new copies will be added to the stock");
                 } else {
                     newPhysicalBook.setBook(book);
                     newPhysicalBook.setArchived(false);
@@ -110,6 +110,12 @@ public class BookService {
             }
 
         return "Physical book created! " + addedCopies;
+    }
+
+    // ADD
+    public String addExistingPhysicalBookCopy(int pBookId) {
+        Book book = physicalBookRepository.findById(pBookId).get().getBook();
+        return addPhysicalBook(book, 1);
     }
 
     // ADD

@@ -1,0 +1,212 @@
+De volgende objecten moeten via mySQL in de database gezet worden,
+op volgorde van hoe ze hier staan
+
+Categories:
+{
+        "categoryId": 1,
+        "category": "PYTHON"
+}
+{
+        "categoryId": 2,
+        "category": "C#"
+}
+{
+        "categoryId": 3,
+        "category": "JAVASCRIPT"
+}
+{
+        "categoryId": 4,
+        "category": "BEGINNER"
+}
+{
+        "categoryId": 5,
+        "category": "INTERMEDIATE"
+}
+{
+        "categoryId": 6,
+        "category": "ADVANCED"
+}
+
+Request status:
+{
+    "requestStatusId": 1,
+    "requestStatusType": "aangevraagd"
+}
+{
+    "requestStatusId": 2,
+    "requestStatusType": "geaccepteerd"
+}
+{
+    "requestStatusId": 2,
+    "requestStatusType": "afgekeurd"
+}
+
+Borrowing status:
+{
+    "borrowingStatusId": 1,
+    "borrowingStatusType": "actief"
+}
+{
+    "borrowingStatusId": 1,
+    "borrowingStatusType": "ingeleverd"
+}
+
+User type:
+{
+    "userTypeId": 1,
+    "userTypeName": "trainee"
+}
+{
+    "userTypeId": 1,
+    "userTypeName": "trainer"
+}
+
+De volgende objecten kunnen via POSTMAN in de database gezet worden
+Kopieer de URL met het juiste type request en vervolgens kunnen 1 voor 1 de objecten toegevoegd worden
+
+POST request
+http://localhost:8082/book/addBook
+{
+    "book": {
+    "title": "Python for Dummies",
+    "isbn": 1122334455,
+    "isOnline": false,
+    "isPhysical": true,
+    "summary": "Looking for a powerful yet easy-to-read programming language? Then slither up to Python! This friendly reference introduces you to Python, the portable, interactive language that combines great power with clear syntax. Get familiar with Python's building blocks; work with strings, dictionaries, and sets; and find out everything you need to write a robust program."
+    },
+    "author": [{
+            "authorId": 1,
+            "name": "Stef Maruch"
+    }],
+    "year": 2006,
+    "categories": [{
+        "categoryId": 1,
+        "category": "PYTHON"
+    },
+    {
+        "categoryId": 4,
+        "category": "BEGINNER"
+    }],
+    "amount": 5
+}
+
+{
+    "book": {
+    "title": "Python All-in-One For Dummies",
+    "isbn": 1122334456,
+    "isOnline": false,
+    "isPhysical": true,
+    "summary": "Python All-in-One For Dummies is your one-stop source for answers to all your Python questions. From creating apps to building complex web sites to sorting big data, Python provides a way to get the work done. This book is great as a starting point for those new to coding, and it also makes a perfect reference for experienced coders looking for more than the basics. Apply your Python skills to data analysis, learn to write AI-assisted code using GitHub CoPilot, and discover many more exciting uses for this top programming language."
+    },
+    "author": [{
+            "authorId": 2,
+            "name": "John C. Shovic"
+    }],
+    "year": 2024,
+    "categories": [{
+        "categoryId": 1,
+        "category": "PYTHON"
+    },
+    {
+        "categoryId": 4,
+        "category": "BEGINNER"
+    }],
+    "amount": 3
+}
+
+{
+    "book": {
+    "title": "HTML, CSS, & JavaScript All-in-One For Dummies",
+    "isbn": 1122334466,
+    "isOnline": false,
+    "isPhysical": true,
+    "summary": "To create great websites, you’ll need to know the “big three” web coding languages—HTML, CSS, and JavaScript®. This book teaches you each of these core web-building languages with five minibooks full of clear explanations, examples, reference lists, and the latest in web building trends and techniques. This expanded resource shows you how to design interfaces that work on any device, build accessible web pages, polish your pages with colors and typography, debug your code, and tons more. Make it all look easy, thanks to this For Dummies guide."
+    },
+    "author": [{
+            "authorId": 3,
+            "name": "Paul Mcfedries"
+    }],
+    "year": 2023,
+    "categories": [{
+        "categoryId": 3,
+        "category": "JAVASCRIPT"
+    },
+    {
+        "categoryId": 4,
+        "category": "BEGINNER"
+    }],
+    "amount": 4
+}
+
+{
+    "book": {
+    "title": "C# Fundamentals 1 - C# Programming Basics: Learn C# Coding for Beginners Book 1",
+    "isbn": 1122334477,
+    "isOnline": false,
+    "isPhysical": true,
+    "summary": "This book explains C# fundamentals with easy to understand examples and simple language. Are you a beginner programmer and looking for learning C# basics? Then this is the perfect guide for you."
+    },
+    "author": [{
+            "authorId": 4,
+            "name": "Barbara Doyle"
+    }],
+    "year": 2017,
+    "categories": [{
+        "categoryId": 2,
+        "category": "C#"
+    },
+    {
+        "categoryId": 4,
+        "category": "BEGINNER"
+    }],
+    "amount": 5
+}
+
+{
+    "book": {
+    "title": "Advanced Analytics in Power BI with R and Python",
+    "isbn": 1122334457,
+    "isOnline": true,
+    "isPhysical": true,
+    "summary": "This easy-to-follow guide provides R and Python recipes to help you learn and apply the top languages in the field of data analytics to your work in Microsoft Power BI. Data analytics expert and author Ryan Wade shows you how to use R and Python to perform tasks that are extremely hard, if not impossible, to do using native Power BI tools. For example, you will learn to score Power BI data using custom data science models and powerful models from Microsoft Cognitive Services."
+    },
+    "author": [{
+            "authorId": 5,
+            "name": "Ryan Wade"
+    }],
+    "year": ,
+    "categories": [{
+        "categoryId": 1,
+        "category": "PYTHON"
+    },
+    {
+        "categoryId": 6,
+        "category": "ADVANCED"
+    }],
+    "amount": 3
+}
+
+{
+    "book": {
+    "title": "",
+    "isbn": 1122334455,
+    "isOnline": false,
+    "isPhysical": true,
+    "summary": ""
+    },
+    "author": [{
+            "authorId": ,
+            "name": ""
+    }],
+    "year": ,
+    "categories": [{
+        "categoryId": ,
+        "category": ""
+    },
+    {
+        "categoryId": ,
+        "category": ""
+    }],
+    "amount":
+}
+
