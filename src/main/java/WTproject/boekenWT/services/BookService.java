@@ -5,7 +5,9 @@ import java.util.*;
 
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BookDTO;
+import WTproject.boekenWT.models.DTO.BorrowingInfoDTO;
 import WTproject.boekenWT.models.DTO.CatalogDTO;
+import WTproject.boekenWT.models.DTO.CopyHistoryDTO;
 import WTproject.boekenWT.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,8 @@ public class BookService {
     AvailabilityRepository availabilityRepository;
     @Autowired
     PhysicalConditionRepository physicalConditionRepository;
+    @Autowired
+    BorrowingRepository borrowingRepository;
 
     //ADD
     public String addBook(BookDTO bookTemplate) {
@@ -156,6 +160,28 @@ public class BookService {
         else {
             return physicalBookCopies;
         }
+    }
+
+    //read history of a Physical Book Copy with the copyId
+    public List<CopyHistoryDTO> getCopyHistory(int copyId) {
+        List<CopyHistoryDTO> allHistoryDTO = new ArrayList<>();
+
+        if(physicalBookCopyRepository.existsById(copyId)){
+            for(Borrowing borrowing:borrowingRepository.findBorrowingsByCopyId(copyId)) {
+                CopyHistoryDTO startHistoryDTO = new CopyHistoryDTO();
+                startHistoryDTO.setDate(borrowing.getStartDate());
+                startHistoryDTO.setAction("Uitgeleend aan " + borrowing.getRequest().getUser().getName());
+                allHistoryDTO.add(startHistoryDTO);
+
+                if(borrowing.getReturnDate() != null){
+                    CopyHistoryDTO returnHistoryDTO = new CopyHistoryDTO();
+                    returnHistoryDTO.setDate(borrowing.getStartDate());
+                    returnHistoryDTO.setAction("Ingeleverd door " + borrowing.getRequest().getUser().getName());
+                    allHistoryDTO.add(returnHistoryDTO);
+                }
+            }
+        }
+        return allHistoryDTO;
     }
 
     public List<Book> getAllBooks() {
