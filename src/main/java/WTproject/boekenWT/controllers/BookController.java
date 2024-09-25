@@ -41,6 +41,16 @@ public class BookController {
         
     }
 
+    @PostMapping("/addCopy")
+    public String addCopy(@RequestParam int pBookId) {
+        try {
+            return bookService.addExistingPhysicalBookCopy(pBookId);
+        }
+        catch (Exception e) {
+            return "ErrorBC: " + e;
+        }
+    }
+
     @GetMapping("/getAllBooks")
     public List<Book> getBooks() {
         return bookService.getAllBooks();
