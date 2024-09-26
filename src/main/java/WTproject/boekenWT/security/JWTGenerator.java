@@ -19,7 +19,7 @@ public class JWTGenerator {
 
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication, int UserId){
         String username = authentication.getName();
 
         // bit of a hacky way to add authorities to the JWT
@@ -30,6 +30,7 @@ public class JWTGenerator {
         // Create a map to hold the claims
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", authorityStrings);
+        claims.put("userID", UserId);
         // the hacky part end here
 
 

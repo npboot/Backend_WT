@@ -67,12 +67,14 @@ public class AuthenticationController {
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDTO.getEmail());
+        int UserID = customUserDetailsService.UserDetailsUserID(loginDTO.getEmail());
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
                                                                                                                    loginDTO.getPassword(),
                                                                                                                    userDetails.getAuthorities()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
+        String token = jwtGenerator.generateToken(authentication,UserID);
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
