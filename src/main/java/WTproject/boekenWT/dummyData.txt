@@ -2,6 +2,7 @@ De volgende objecten moeten via mySQL in de database gezet worden,
 op volgorde van hoe ze hier staan
 
 Categories:
+INSERT INTO `category` (`category_id`, `category`) VALUES (NULL, 'PYTHON'), (NULL, 'C#'), (NULL, 'JAVASCRIPT'), (NULL, 'BEGINNER'), (NULL, 'INTERMEDIATE'), (NULL, 'ADVANCED')
 {
         "categoryId": 1,
         "category": "PYTHON"
@@ -28,6 +29,7 @@ Categories:
 }
 
 Request status:
+INSERT INTO `requeststatus` (`request_status_id`, `request_status_type`) VALUES (NULL, 'aangevraagd'), (NULL, 'geaccepteerd'), (NULL, 'afgekeurd')
 {
     "requestStatusId": 1,
     "requestStatusType": "aangevraagd"
@@ -37,29 +39,35 @@ Request status:
     "requestStatusType": "geaccepteerd"
 }
 {
-    "requestStatusId": 2,
+    "requestStatusId": 3,
     "requestStatusType": "afgekeurd"
 }
 
 Borrowing status:
+INSERT INTO `borrowingstatus`(`borrowing_status_id`, `borrowing_status_type`) VALUES (NULL,'actief'), (NULL,'ingeleverd')
 {
     "borrowingStatusId": 1,
     "borrowingStatusType": "actief"
 }
 {
-    "borrowingStatusId": 1,
+    "borrowingStatusId": 2,
     "borrowingStatusType": "ingeleverd"
 }
 
 User type:
+INSERT INTO `usertype`(`user_type_id`, `user_type_name`) VALUES (NULL,'trainee'), (NULL,'trainer')
 {
     "userTypeId": 1,
     "userTypeName": "trainee"
 }
 {
-    "userTypeId": 1,
+    "userTypeId": 2,
     "userTypeName": "trainer"
 }
+
+User:
+INSERT INTO `user` (`user_id`, `age`, `email`, `name`, `password`, `phone_number`, `user_type_id`) VALUES (NULL, '24', 'shirley@mail.com', 'Shirley', 'shirley123', '06000001', '1'), (NULL, '24', 'luuk@mail.com', 'Luuk', 'luuk123', '06000002', '1'), (NULL, '24', 'emma@mail.com', 'Emma', 'emma123', '06000003', '1'), (NULL, '24', 'niels@mail.com', 'Niels', 'niels123', '06000004', '1'), (NULL, '24', 'samuel@mail.com', 'Samuel', 'samuel123', '06000005', '1'), (NULL, '24', 'leslie@mail.com', 'Leslie', 'leslie123', '06000006', '1'), (NULL, '24', 'wouter@mail.com', 'Wouter', 'wouter123', '06000007', '1'), (NULL, '35', 'ben@mail.com', 'Ben', 'ben123', '06000008', '2'), (NULL, '35', 'niek@mail.com', 'Niek', 'niek123', '06000009', '2'), (NULL, '35', 'jorrit@mail.com', 'Jorrit', 'jorrit123', '06000000', '2')
+
 
 De volgende objecten kunnen via POSTMAN in de database gezet worden
 Kopieer de URL met het juiste type request en vervolgens kunnen 1 voor 1 de objecten toegevoegd worden
@@ -72,7 +80,7 @@ http://localhost:8082/book/addBook
     "isbn": 1122334455,
     "isOnline": false,
     "isPhysical": true,
-    "summary": "Looking for a powerful yet easy-to-read programming language? Then slither up to Python! This friendly reference introduces you to Python, the portable, interactive language that combines great power with clear syntax. Get familiar with Python's building blocks; work with strings, dictionaries, and sets; and find out everything you need to write a robust program."
+    "summary": "Looking for a powerful yet easy-to-read programming language? Then slither up to Python! This friendly reference introduces you to Python, the portable, interactive language that combines great power with clear syntax."
     },
     "author": [{
             "authorId": 1,
@@ -96,7 +104,7 @@ http://localhost:8082/book/addBook
     "isbn": 1122334456,
     "isOnline": false,
     "isPhysical": true,
-    "summary": "Python All-in-One For Dummies is your one-stop source for answers to all your Python questions. From creating apps to building complex web sites to sorting big data, Python provides a way to get the work done. This book is great as a starting point for those new to coding, and it also makes a perfect reference for experienced coders looking for more than the basics. Apply your Python skills to data analysis, learn to write AI-assisted code using GitHub CoPilot, and discover many more exciting uses for this top programming language."
+    "summary": "Python All-in-One For Dummies is your one-stop source for answers to all your Python questions. From creating apps to building complex web sites to sorting big data, Python provides a way to get the work done."
     },
     "author": [{
             "authorId": 2,
@@ -111,7 +119,7 @@ http://localhost:8082/book/addBook
         "categoryId": 4,
         "category": "BEGINNER"
     }],
-    "amount": 3
+    "amount": 4
 }
 
 {
@@ -120,7 +128,7 @@ http://localhost:8082/book/addBook
     "isbn": 1122334466,
     "isOnline": false,
     "isPhysical": true,
-    "summary": "To create great websites, you’ll need to know the “big three” web coding languages—HTML, CSS, and JavaScript®. This book teaches you each of these core web-building languages with five minibooks full of clear explanations, examples, reference lists, and the latest in web building trends and techniques. This expanded resource shows you how to design interfaces that work on any device, build accessible web pages, polish your pages with colors and typography, debug your code, and tons more. Make it all look easy, thanks to this For Dummies guide."
+    "summary": "To create websites, you’ll need to know the big three web coding languages—HTML, CSS, and JavaScript. This book teaches you these core web-building languages with minibooks full of clear explanations, examples, and the latest in web building trends."
     },
     "author": [{
             "authorId": 3,
@@ -135,7 +143,7 @@ http://localhost:8082/book/addBook
         "categoryId": 4,
         "category": "BEGINNER"
     }],
-    "amount": 4
+    "amount": 3
 }
 
 {
@@ -168,13 +176,13 @@ http://localhost:8082/book/addBook
     "isbn": 1122334457,
     "isOnline": true,
     "isPhysical": true,
-    "summary": "This easy-to-follow guide provides R and Python recipes to help you learn and apply the top languages in the field of data analytics to your work in Microsoft Power BI. Data analytics expert and author Ryan Wade shows you how to use R and Python to perform tasks that are extremely hard, if not impossible, to do using native Power BI tools. For example, you will learn to score Power BI data using custom data science models and powerful models from Microsoft Cognitive Services."
+    "summary": "This easy-to-follow guide provides R and Python recipes to help you learn and apply the top languages in the field of data analytics to your work in Microsoft Power BI."
     },
     "author": [{
             "authorId": 5,
             "name": "Ryan Wade"
     }],
-    "year": ,
+    "year": 2020,
     "categories": [{
         "categoryId": 1,
         "category": "PYTHON"
@@ -183,30 +191,73 @@ http://localhost:8082/book/addBook
         "categoryId": 6,
         "category": "ADVANCED"
     }],
-    "amount": 3
+    "amount": 4
 }
 
 {
     "book": {
-    "title": "",
-    "isbn": 1122334455,
+    "title": "The Complete Developer: Master the Full Stack with TypeScript, React, Next.js, MongoDB, and Docker",
+    "isbn": 1122334467,
     "isOnline": false,
     "isPhysical": true,
-    "summary": ""
+    "summary": "This book is an easy introduction to the creation of web applications. Each chapter covers a particular part of an application, introducing you to modern techniques for achieving it with a focus on some tools used by today's full-stack developers."
     },
     "author": [{
-            "authorId": ,
-            "name": ""
+            "authorId": 6,
+            "name": "Martin Krause"
     }],
-    "year": ,
+    "year": 2024,
     "categories": [{
-        "categoryId": ,
-        "category": ""
+        "categoryId": 3,
+        "category": "JAVASCRIPT"
     },
     {
-        "categoryId": ,
-        "category": ""
+        "categoryId": 5,
+        "category": "INTERMEDIATE"
     }],
-    "amount":
+    "amount": 3
 }
+
+
+POST request
+http://localhost:8082/borrowing/addRequest
+key: pBookId    value: 1
+key: userId     value: 1
+
+key: pBookId    value: 1
+key: userId     value: 2
+
+key: pBookId    value: 1
+key: userId     value: 3
+
+key: pBookId    value: 2
+key: userId     value: 1
+
+key: pBookId    value: 2
+key: userId     value: 3
+
+key: pBookId    value: 2
+key: userId     value: 4
+
+key: pBookId    value: 3
+key: userId     value: 4
+
+key: pBookId    value: 3
+key: userId     value: 5
+
+key: pBookId    value: 3
+key: userId     value: 6
+
+key: pBookId    value: 4
+key: userId     value: 2
+
+key: pBookId    value: 4
+key: userId     value: 7
+
+key: pBookId    value: 5
+key: userId     value: 3
+
+
+
+
 
