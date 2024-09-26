@@ -30,7 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapUserTypeToAuthorities(user.getUserType())
         );
     }
-
+    public int UserDetailsUserID(String username) {
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username + "not found"));
+        return user.getUserId();
+    }
     //  convert a role/usertype to a GrantedAuthority and put it in a collection.
     private Collection<GrantedAuthority> mapUserTypeToAuthorities(UserType userType) {
         return List.of(new SimpleGrantedAuthority(userType.getUserTypeName()));

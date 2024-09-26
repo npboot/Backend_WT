@@ -17,7 +17,9 @@ import java.util.stream.Collectors;
 @Component
 public class JWTGenerator {
 
-    public String generateToken(Authentication authentication){
+    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    public String generateToken(Authentication authentication, int UserId){
         String username = authentication.getName();
 
         // bit of a hacky way to add authorities to the JWT
@@ -28,6 +30,7 @@ public class JWTGenerator {
         // Create a map to hold the claims
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", authorityStrings);
+        claims.put("userID", UserId);
         // the hacky part end here
 
 
@@ -35,20 +38,20 @@ public class JWTGenerator {
         Date expireDate = new Date(currentDate.getTime() +  SecurityConst.JWT_EXPIRATION);
 
         // Generate a secure key for HS512
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+//        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
         String token = Jwts.builder()
                 .setSubject(username)
                 .addClaims(claims) // Add claims here (this contains user role)
                 .setIssuedAt(new Date())
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS512)
 
                 .compact();
         return token;
     }
     public String getUsernameFromJWT(String token){
         Claims claims = Jwts.parser()
-                .setSigningKey(SecurityConst.JWT_SECRET)
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -57,7 +60,7 @@ public class JWTGenerator {
 
     public boolean validationToken(String token){
         try{
-            Jwts.parser().setSigningKey(SecurityConst.JWT_SECRET).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(key).parseClaimsJws(token);
             return true;
         } catch (Exception exception) {
             throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");

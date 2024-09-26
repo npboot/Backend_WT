@@ -45,7 +45,7 @@ public class AuthenticationController {
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto){
-        System.out.println("got here");
+
         if(userRepository.existsByEmail(registerDto.getEmail())){
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
@@ -53,7 +53,7 @@ public class AuthenticationController {
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        UserType userType = userTypeRepository.findByUserTypeName("Trainee").orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
+        UserType userType = userTypeRepository.findByUserTypeName(registerDto.getUserType()).orElseThrow(() -> new RuntimeException("UserType 'USER' not found"));
         user.setUserType(userType);
 
         userRepository.save(user);
@@ -66,12 +66,14 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
 
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDTO.getEmail());
+        int UserID = customUserDetailsService.UserDetailsUserID(loginDTO.getEmail());
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
                                                                                                                    loginDTO.getPassword(),
                                                                                                                    userDetails.getAuthorities()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
+        String token = jwtGenerator.generateToken(authentication,UserID);
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
