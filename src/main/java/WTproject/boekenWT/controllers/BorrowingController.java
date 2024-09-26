@@ -12,7 +12,7 @@ import java.util.List;
 @SpringBootApplication
 @CrossOrigin
 @RestController
-@RequestMapping("/borrowing")
+@RequestMapping("/api/borrowing")
 public class BorrowingController {
 
     @Autowired

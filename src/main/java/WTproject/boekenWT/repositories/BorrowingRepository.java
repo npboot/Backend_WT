@@ -10,7 +10,7 @@ import java.util.List;
 public interface BorrowingRepository extends CrudRepository<Borrowing, Integer> {
 
     @Query(
-            value = "SELECT b.* FROM Borrowing b INNER JOIN REQUEST r ON b.request_id = r.request_id INNER JOIN USER u ON r.user_id = u.user_id WHERE u.user_id = ?1",
+            value = "SELECT b.* FROM Borrowing b INNER JOIN REQUEST r ON b.request_id = r.request_id INNER JOIN USERINFO u ON r.user_id = u.user_id WHERE u.user_id = ?1",
             nativeQuery = true)
     List<Borrowing> findBorrowingsByUserId(int userId);
 

@@ -3,7 +3,7 @@ package WTproject.boekenWT.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="USER")
+@Table(name="USERINFO")
 public class User {
 
 //    public User(String name, String password, UserType usertype) {

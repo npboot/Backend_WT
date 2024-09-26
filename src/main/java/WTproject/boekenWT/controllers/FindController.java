@@ -11,7 +11,7 @@ import java.util.List;
 @SpringBootApplication
 @CrossOrigin
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 public class FindController {
 
     @Autowired

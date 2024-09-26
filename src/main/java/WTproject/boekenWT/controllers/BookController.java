@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @SpringBootApplication
 @CrossOrigin
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/api/book")
 public class BookController {
 
     @Autowired

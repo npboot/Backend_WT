@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @SpringBootApplication
 @CrossOrigin
 @RestController
-@RequestMapping("/author")
+@RequestMapping("/api/author")
 public class AuthorController {
 
     @Autowired
