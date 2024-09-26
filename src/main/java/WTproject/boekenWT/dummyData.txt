@@ -39,7 +39,7 @@ INSERT INTO `requeststatus` (`request_status_id`, `request_status_type`) VALUES 
     "requestStatusType": "geaccepteerd"
 }
 {
-    "requestStatusId": 2,
+    "requestStatusId": 3,
     "requestStatusType": "afgekeurd"
 }
 
@@ -50,7 +50,7 @@ INSERT INTO `borrowingstatus`(`borrowing_status_id`, `borrowing_status_type`) VA
     "borrowingStatusType": "actief"
 }
 {
-    "borrowingStatusId": 1,
+    "borrowingStatusId": 2,
     "borrowingStatusType": "ingeleverd"
 }
 
@@ -61,7 +61,7 @@ INSERT INTO `usertype`(`user_type_id`, `user_type_name`) VALUES (NULL,'trainee')
     "userTypeName": "trainee"
 }
 {
-    "userTypeId": 1,
+    "userTypeId": 2,
     "userTypeName": "trainer"
 }
 
