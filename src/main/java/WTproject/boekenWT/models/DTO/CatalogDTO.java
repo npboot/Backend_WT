@@ -1,7 +1,13 @@
 package WTproject.boekenWT.models.DTO;
 
 import WTproject.boekenWT.models.Author;
-import WTproject.boekenWT.models.Book;
+import WTproject.boekenWT.models.PhysicalBook;
+import WTproject.boekenWT.models.PhysicalBookCopy;
+import WTproject.boekenWT.repositories.PhysicalBookCopyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.StringJoiner;
 
 public class CatalogDTO {
     private String title;
@@ -11,16 +17,20 @@ public class CatalogDTO {
     private int total;
     private int isbn;
 
-    public CatalogDTO(Book book) {
-        title = book.getTitle();
-        author = "";
-        for(Author a:book.getAuthors()) {
-            author+= a.getName()+", ";
+    @Autowired
+    PhysicalBookCopyRepository physicalBookCopyRepository;
+
+    public CatalogDTO(PhysicalBook pBook, int availableCopies) {
+        title = pBook.getBook().getTitle();
+        StringJoiner authorString = new StringJoiner(", ");
+        for(Author a:pBook.getBook().getAuthors()) {
+            authorString.add(a.getName());
         };
-        year = book.getYear().getValue();
-        total = 5;
-        available = 3;
-        isbn = book.getIsbn();
+        author = authorString.toString();
+        year = pBook.getBook().getYear().getValue();
+        total = pBook.getStock();
+        available = availableCopies;
+        isbn = pBook.getBook().getIsbn();
 
     }
 

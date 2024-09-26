@@ -14,4 +14,14 @@ public interface BorrowingRepository extends CrudRepository<Borrowing, Integer> 
             nativeQuery = true)
     List<Borrowing> findBorrowingsByUserId(int userId);
 
+    @Query(
+            value = "SELECT b.* FROM Borrowing b INNER JOIN PHYSICALBOOKCOPY pbc ON b.copy_id = pbc.copy_id WHERE pbc.book_id = ?1",
+            nativeQuery = true)
+    List<Borrowing> findBorrowingsByPBookId(int pBookId);
+
+    @Query(
+            value = "SELECT b.* FROM Borrowing b WHERE b.copy_id = ?1 ORDER BY start_date",
+            nativeQuery = true)
+    List<Borrowing> findBorrowingsByCopyId(int copyId);
+
 }

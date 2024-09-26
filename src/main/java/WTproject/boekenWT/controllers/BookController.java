@@ -3,6 +3,7 @@ package WTproject.boekenWT.controllers;
 import WTproject.boekenWT.models.*;
 import WTproject.boekenWT.models.DTO.BookDTO;
 import WTproject.boekenWT.models.DTO.CatalogDTO;
+import WTproject.boekenWT.models.DTO.CopyHistoryDTO;
 import WTproject.boekenWT.services.BookService;
 
 import java.util.List;
@@ -40,6 +41,16 @@ public class BookController {
         
     }
 
+    @PostMapping("/addCopy")
+    public String addCopy(@RequestParam int pBookId) {
+        try {
+            return bookService.addExistingPhysicalBookCopy(pBookId);
+        }
+        catch (Exception e) {
+            return "ErrorBC: " + e;
+        }
+    }
+
     @GetMapping("/getAllBooks")
     public List<Book> getBooks() {
         return bookService.getAllBooks();
@@ -49,6 +60,12 @@ public class BookController {
     public List<PhysicalBookCopy> getBookInfo(@RequestParam int isbn) {
 
         return bookService.getBookInfo(isbn);
+    }
+
+    @GetMapping("/getCopyHistory")
+    public List<CopyHistoryDTO> getCopyHistory(@RequestParam int copyId) {
+
+        return bookService.getCopyHistory(copyId);
     }
 
 //    @PutMapping("/updateBook")

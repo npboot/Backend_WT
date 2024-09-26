@@ -28,6 +28,12 @@ public class BorrowingController {
         return borrowingService.getBorrowings(userId);
     }
 
+    @GetMapping("/getBorrowingsBook")
+    public List<BorrowingInfoDTO> getBorrowingsBookInfo(@RequestParam int pBookId){
+        return borrowingService.getBorrowingsPhysicalBook(pBookId);
+    }
+
+
     @GetMapping("/getRequestInfo")
     public RequestInfoDTO getRequestInfo(@RequestParam int requestId) {
         return borrowingService.getRequestInfo(requestId);
